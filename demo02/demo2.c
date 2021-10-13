@@ -7,6 +7,8 @@
 #define DK4     PORTC.7
 
 unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90};
+unsigned int x;
+unsigned char i;
 
 void show(unsigned int x) {
     unsigned int temp;
@@ -91,7 +93,15 @@ SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<
 TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 
 while (1) {
-      show(8743);
-
+    // moi ham show delay 20ms => goi ham show 50 lan => 50*20 = 1000ms
+    // cach 1: dung vong For
+    // cach 2
+      show(x);
+      i++;
+      if (i > 50)
+      {
+            x++;
+            i = 0;
+      }
     }
 }

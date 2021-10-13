@@ -1084,6 +1084,11 @@ __DELAY_USW_LOOP:
 	ADD  R31,R0
 	.ENDM
 
+;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
+	.DEF _x=R4
+	.DEF _x_msb=R5
+	.DEF _i=R7
+
 	.CSEG
 	.ORG 0x00
 
@@ -1221,16 +1226,18 @@ __GLOBAL_INI_END:
 ;unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90};
 
 	.DSEG
+;unsigned int x;
+;unsigned char i;
 ;
 ;void show(unsigned int x) {
-; 0000 000B void show(unsigned int x) {
+; 0000 000D void show(unsigned int x) {
 
 	.CSEG
 _show:
 ; .FSTART _show
-; 0000 000C     unsigned int temp;
-; 0000 000D     unsigned char arr[4], i;
-; 0000 000E     temp = x;
+; 0000 000E     unsigned int temp;
+; 0000 000F     unsigned char arr[4], i;
+; 0000 0010     temp = x;
 	ST   -Y,R27
 	ST   -Y,R26
 	SBIW R28,4
@@ -1240,13 +1247,13 @@ _show:
 ;	arr -> Y+4
 ;	i -> R19
 	__GETWRS 16,17,8
-; 0000 000F     for (i = 0; i < 4; i++) // tach so tu duoi lên tren
+; 0000 0011     for (i = 0; i < 4; i++) // tach so tu duoi lên tren
 	LDI  R19,LOW(0)
 _0x5:
 	CPI  R19,4
 	BRSH _0x6
-; 0000 0010     {
-; 0000 0011         arr[3 - i] = temp % 10;
+; 0000 0012     {
+; 0000 0013         arr[3 - i] = temp % 10;
 	MOV  R30,R19
 	LDI  R31,0
 	LDI  R26,LOW(3)
@@ -1265,163 +1272,179 @@ _0x5:
 	CALL __MODW21U
 	MOVW R26,R22
 	ST   X,R30
-; 0000 0012         temp = temp / 10;
+; 0000 0014         temp = temp / 10;
 	MOVW R26,R16
 	LDI  R30,LOW(10)
 	LDI  R31,HIGH(10)
 	CALL __DIVW21U
 	MOVW R16,R30
-; 0000 0013     }
+; 0000 0015     }
 	SUBI R19,-1
 	RJMP _0x5
 _0x6:
-; 0000 0014    // hien thi
-; 0000 0015    DK1 = 0;
+; 0000 0016    // hien thi
+; 0000 0017    DK1 = 0;
 	CBI  0x15,4
-; 0000 0016    PORTB = number[arr[0]];
+; 0000 0018    PORTB = number[arr[0]];
 	LDD  R30,Y+4
 	RCALL SUBOPT_0x0
-; 0000 0017    delay_ms(5);
-; 0000 0018    DK1 = 1;
+; 0000 0019    delay_ms(5);
+; 0000 001A    DK1 = 1;
 	SBI  0x15,4
-; 0000 0019 
-; 0000 001A    DK2 = 0;
+; 0000 001B 
+; 0000 001C    DK2 = 0;
 	CBI  0x15,5
-; 0000 001B    PORTB = number[arr[1]];
+; 0000 001D    PORTB = number[arr[1]];
 	LDD  R30,Y+5
 	RCALL SUBOPT_0x0
-; 0000 001C    delay_ms(5);
-; 0000 001D    DK2 = 1;
+; 0000 001E    delay_ms(5);
+; 0000 001F    DK2 = 1;
 	SBI  0x15,5
-; 0000 001E 
-; 0000 001F    DK3 = 0;
+; 0000 0020 
+; 0000 0021    DK3 = 0;
 	CBI  0x15,6
-; 0000 0020    PORTB = number[arr[2]];
+; 0000 0022    PORTB = number[arr[2]];
 	LDD  R30,Y+6
 	RCALL SUBOPT_0x0
-; 0000 0021    delay_ms(5);
-; 0000 0022    DK3 = 1;
+; 0000 0023    delay_ms(5);
+; 0000 0024    DK3 = 1;
 	SBI  0x15,6
-; 0000 0023 
-; 0000 0024    DK4 = 0;
+; 0000 0025 
+; 0000 0026    DK4 = 0;
 	CBI  0x15,7
-; 0000 0025    PORTB = number[arr[3]];
+; 0000 0027    PORTB = number[arr[3]];
 	LDD  R30,Y+7
 	RCALL SUBOPT_0x0
-; 0000 0026    delay_ms(5);
-; 0000 0027    DK4 = 1;
+; 0000 0028    delay_ms(5);
+; 0000 0029    DK4 = 1;
 	SBI  0x15,7
-; 0000 0028 
-; 0000 0029 }
+; 0000 002A 
+; 0000 002B }
 	CALL __LOADLOCR4
 	ADIW R28,10
 	RET
 ; .FEND
 ;
 ;void main(void)
-; 0000 002C {
+; 0000 002E {
 _main:
 ; .FSTART _main
-; 0000 002D DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
+; 0000 002F DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
 	LDI  R30,LOW(0)
 	OUT  0x1A,R30
-; 0000 002E PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
+; 0000 0030 PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
 	OUT  0x1B,R30
-; 0000 002F 
-; 0000 0030 DDRB=(1<<DDB7) | (1<<DDB6) | (1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2) | (1<<DDB1) | (1<<DDB0);
+; 0000 0031 
+; 0000 0032 DDRB=(1<<DDB7) | (1<<DDB6) | (1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2) | (1<<DDB1) | (1<<DDB0);
 	LDI  R30,LOW(255)
 	OUT  0x17,R30
-; 0000 0031 PORTB=(1<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
+; 0000 0033 PORTB=(1<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
 	OUT  0x18,R30
-; 0000 0032 
-; 0000 0033 DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (0<<DDC3) | (0<<DDC2) | (0<<DDC1) | (0<<DDC0);
+; 0000 0034 
+; 0000 0035 DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (0<<DDC3) | (0<<DDC2) | (0<<DDC1) | (0<<DDC0);
 	LDI  R30,LOW(240)
 	OUT  0x14,R30
-; 0000 0034 PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
+; 0000 0036 PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
 	OUT  0x15,R30
-; 0000 0035 
-; 0000 0036 DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
+; 0000 0037 
+; 0000 0038 DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
 	LDI  R30,LOW(0)
 	OUT  0x11,R30
-; 0000 0037 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
+; 0000 0039 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
 	OUT  0x12,R30
-; 0000 0038 
-; 0000 0039 TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+; 0000 003A 
+; 0000 003B TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
 	OUT  0x33,R30
-; 0000 003A TCNT0=0x00;
+; 0000 003C TCNT0=0x00;
 	OUT  0x32,R30
-; 0000 003B OCR0=0x00;
+; 0000 003D OCR0=0x00;
 	OUT  0x3C,R30
-; 0000 003C 
-; 0000 003D TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
+; 0000 003E 
+; 0000 003F TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
 	OUT  0x2F,R30
-; 0000 003E TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
+; 0000 0040 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
 	OUT  0x2E,R30
-; 0000 003F TCNT1H=0x00;
+; 0000 0041 TCNT1H=0x00;
 	OUT  0x2D,R30
-; 0000 0040 TCNT1L=0x00;
+; 0000 0042 TCNT1L=0x00;
 	OUT  0x2C,R30
-; 0000 0041 ICR1H=0x00;
+; 0000 0043 ICR1H=0x00;
 	OUT  0x27,R30
-; 0000 0042 ICR1L=0x00;
+; 0000 0044 ICR1L=0x00;
 	OUT  0x26,R30
-; 0000 0043 OCR1AH=0x00;
+; 0000 0045 OCR1AH=0x00;
 	OUT  0x2B,R30
-; 0000 0044 OCR1AL=0x00;
+; 0000 0046 OCR1AL=0x00;
 	OUT  0x2A,R30
-; 0000 0045 OCR1BH=0x00;
+; 0000 0047 OCR1BH=0x00;
 	OUT  0x29,R30
-; 0000 0046 OCR1BL=0x00;
+; 0000 0048 OCR1BL=0x00;
 	OUT  0x28,R30
-; 0000 0047 
-; 0000 0048 ASSR=0<<AS2;
+; 0000 0049 
+; 0000 004A ASSR=0<<AS2;
 	OUT  0x22,R30
-; 0000 0049 TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+; 0000 004B TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
 	OUT  0x25,R30
-; 0000 004A TCNT2=0x00;
+; 0000 004C TCNT2=0x00;
 	OUT  0x24,R30
-; 0000 004B OCR2=0x00;
+; 0000 004D OCR2=0x00;
 	OUT  0x23,R30
-; 0000 004C 
-; 0000 004D TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
-	OUT  0x39,R30
 ; 0000 004E 
-; 0000 004F MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
+; 0000 004F TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
+	OUT  0x39,R30
+; 0000 0050 
+; 0000 0051 MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
 	OUT  0x35,R30
-; 0000 0050 MCUCSR=(0<<ISC2);
+; 0000 0052 MCUCSR=(0<<ISC2);
 	OUT  0x34,R30
-; 0000 0051 
-; 0000 0052 UCSRB=(0<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
-	OUT  0xA,R30
 ; 0000 0053 
-; 0000 0054 ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
+; 0000 0054 UCSRB=(0<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
+	OUT  0xA,R30
+; 0000 0055 
+; 0000 0056 ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
 	LDI  R30,LOW(128)
 	OUT  0x8,R30
-; 0000 0055 SFIOR=(0<<ACME);
+; 0000 0057 SFIOR=(0<<ACME);
 	LDI  R30,LOW(0)
 	OUT  0x30,R30
-; 0000 0056 
-; 0000 0057 ADCSRA=(0<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
-	OUT  0x6,R30
 ; 0000 0058 
-; 0000 0059 SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
-	OUT  0xD,R30
+; 0000 0059 ADCSRA=(0<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
+	OUT  0x6,R30
 ; 0000 005A 
-; 0000 005B TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
-	OUT  0x36,R30
+; 0000 005B SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
+	OUT  0xD,R30
 ; 0000 005C 
-; 0000 005D while (1) {
+; 0000 005D TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
+	OUT  0x36,R30
+; 0000 005E 
+; 0000 005F while (1) {
 _0x17:
-; 0000 005E       show(8743);
-	LDI  R26,LOW(8743)
-	LDI  R27,HIGH(8743)
+; 0000 0060     // moi ham show delay 20ms => goi ham show 50 lan => 50*20 = 1000ms
+; 0000 0061     // cach 1: dung vong For
+; 0000 0062     // cach 2
+; 0000 0063       show(x);
+	MOVW R26,R4
 	RCALL _show
-; 0000 005F 
-; 0000 0060     }
-	RJMP _0x17
-; 0000 0061 }
+; 0000 0064       i++;
+	INC  R7
+; 0000 0065       if (i > 50)
+	LDI  R30,LOW(50)
+	CP   R30,R7
+	BRSH _0x1A
+; 0000 0066       {
+; 0000 0067             x++;
+	MOVW R30,R4
+	ADIW R30,1
+	MOVW R4,R30
+; 0000 0068             i = 0;
+	CLR  R7
+; 0000 0069       }
+; 0000 006A     }
 _0x1A:
-	RJMP _0x1A
+	RJMP _0x17
+; 0000 006B }
+_0x1B:
+	RJMP _0x1B
 ; .FEND
 
 	.DSEG
