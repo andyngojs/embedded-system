@@ -1087,7 +1087,9 @@ __DELAY_USW_LOOP:
 ;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
 	.DEF _x=R4
 	.DEF _x_msb=R5
-	.DEF _i=R7
+	.DEF _count=R6
+	.DEF _count_msb=R7
+	.DEF _i=R9
 
 	.CSEG
 	.ORG 0x00
@@ -1226,7 +1228,7 @@ __GLOBAL_INI_END:
 ;unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90};
 
 	.DSEG
-;unsigned int x;
+;unsigned int x, count;
 ;unsigned char i;
 ;
 ;void show(unsigned int x) {
@@ -1350,10 +1352,12 @@ _main:
 ; 0000 0038 DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
 	LDI  R30,LOW(0)
 	OUT  0x11,R30
-; 0000 0039 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
+; 0000 0039 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
+	LDI  R30,LOW(3)
 	OUT  0x12,R30
 ; 0000 003A 
 ; 0000 003B TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+	LDI  R30,LOW(0)
 	OUT  0x33,R30
 ; 0000 003C TCNT0=0x00;
 	OUT  0x32,R30
@@ -1422,29 +1426,63 @@ _0x17:
 ; 0000 0060     // moi ham show delay 20ms => goi ham show 50 lan => 50*20 = 1000ms
 ; 0000 0061     // cach 1: dung vong For
 ; 0000 0062     // cach 2
-; 0000 0063       show(x);
-	MOVW R26,R4
-	RCALL _show
+; 0000 0063      /* show(x);
 ; 0000 0064       i++;
-	INC  R7
 ; 0000 0065       if (i > 50)
-	LDI  R30,LOW(50)
-	CP   R30,R7
-	BRSH _0x1A
 ; 0000 0066       {
 ; 0000 0067             x++;
+; 0000 0068             i = 0;
+; 0000 0069       }
+; 0000 006A       */
+; 0000 006B      // Task 3: Giao tiep voi nut bam nhan giu tang 1 don vi
+; 0000 006C      show(x);
+	MOVW R26,R4
+	RCALL _show
+; 0000 006D      if (PIND.0 == 0)
+	SBIC 0x10,0
+	RJMP _0x1A
+; 0000 006E      {
+; 0000 006F         count++;
+	RCALL SUBOPT_0x1
+; 0000 0070         if (count > 25)
+	BRSH _0x1B
+; 0000 0071         {
+; 0000 0072             x++;
 	MOVW R30,R4
 	ADIW R30,1
 	MOVW R4,R30
-; 0000 0068             i = 0;
+; 0000 0073             count = 0;
+	CLR  R6
 	CLR  R7
-; 0000 0069       }
-; 0000 006A     }
-_0x1A:
-	RJMP _0x17
-; 0000 006B }
+; 0000 0074         }
+; 0000 0075      }
 _0x1B:
-	RJMP _0x1B
+; 0000 0076      if (PIND.1 == 0)
+_0x1A:
+	SBIC 0x10,1
+	RJMP _0x1C
+; 0000 0077      {
+; 0000 0078         count++;
+	RCALL SUBOPT_0x1
+; 0000 0079         if (count > 25)
+	BRSH _0x1D
+; 0000 007A         {
+; 0000 007B             x--;
+	MOVW R30,R4
+	SBIW R30,1
+	MOVW R4,R30
+; 0000 007C             count = 0;
+	CLR  R6
+	CLR  R7
+; 0000 007D         }
+; 0000 007E      }
+_0x1D:
+; 0000 007F     }
+_0x1C:
+	RJMP _0x17
+; 0000 0080 }
+_0x1E:
+	RJMP _0x1E
 ; .FEND
 
 	.DSEG
@@ -1462,6 +1500,17 @@ SUBOPT_0x0:
 	LDI  R26,LOW(5)
 	LDI  R27,0
 	JMP  _delay_ms
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+SUBOPT_0x1:
+	MOVW R30,R6
+	ADIW R30,1
+	MOVW R6,R30
+	LDI  R30,LOW(25)
+	LDI  R31,HIGH(25)
+	CP   R30,R6
+	CPC  R31,R7
+	RET
 
 
 	.CSEG

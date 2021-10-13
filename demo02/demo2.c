@@ -7,7 +7,7 @@
 #define DK4     PORTC.7
 
 unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90};
-unsigned int x;
+unsigned int x, count;
 unsigned char i;
 
 void show(unsigned int x) {
@@ -54,7 +54,7 @@ DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (0<<DDC3) | (0<<DDC2) | (0<
 PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
 
 DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
-PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
+PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
 
 TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
 TCNT0=0x00;
@@ -96,12 +96,33 @@ while (1) {
     // moi ham show delay 20ms => goi ham show 50 lan => 50*20 = 1000ms
     // cach 1: dung vong For
     // cach 2
-      show(x);
+     /* show(x);
       i++;
       if (i > 50)
       {
             x++;
             i = 0;
       }
+      */
+     // Task 3: Giao tiep voi nut bam nhan giu tang 1 don vi
+     show(x);
+     if (PIND.0 == 0)
+     {
+        count++;
+        if (count > 25)
+        {
+            x++;
+            count = 0;
+        }
+     }
+     if (PIND.1 == 0)
+     {
+        count++;
+        if (count > 25)
+        {
+            x--;
+            count = 0;
+        }
+     }
     }
 }

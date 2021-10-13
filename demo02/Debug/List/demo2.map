@@ -11,10 +11,11 @@ Register Allocation
 Variable                                                                          Register  Size
 ------------------------------------------------------------------------------------------------
 x                                                                                 R4,R5        2
-i                                                                                 R7           1
+count                                                                             R6,R7        2
+i                                                                                 R9           1
 
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
 show                                                                              0x00060     58
-main                                                                              0x0009A     52
+main                                                                              0x0009A     64

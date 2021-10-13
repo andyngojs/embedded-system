@@ -1,9 +1,11 @@
 
-AVRASM ver. 2.1.30  F:\Electronics\AVR\demo02\Debug\List\demo2.asm Wed Oct 13 17:04:25 2021
+AVRASM ver. 2.1.30  F:\Electronics\AVR\demo02\Debug\List\demo2.asm Wed Oct 13 17:43:19 2021
 
 F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1088): warning: Register r4 already defined by the .DEF directive
 F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1089): warning: Register r5 already defined by the .DEF directive
-F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 already defined by the .DEF directive
+F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r6 already defined by the .DEF directive
+F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1091): warning: Register r7 already defined by the .DEF directive
+F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1092): warning: Register r9 already defined by the .DEF directive
                  
                  
                  ;CodeVisionAVR C Compiler V3.12 Advanced
@@ -1094,7 +1096,9 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
                  ;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
                  	.DEF _x=R4
                  	.DEF _x_msb=R5
-                 	.DEF _i=R7
+                 	.DEF _count=R6
+                 	.DEF _count_msb=R7
+                 	.DEF _i=R9
                  
                  	.CSEG
                  	.ORG 0x00
@@ -1236,7 +1240,7 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
                  ;unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90};
                  
                  	.DSEG
-                 ;unsigned int x;
+                 ;unsigned int x, count;
                  ;unsigned char i;
                  ;
                  ;void show(unsigned int x) {
@@ -1251,7 +1255,7 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 000060 93ba      	ST   -Y,R27
 000061 93aa      	ST   -Y,R26
 000062 9724      	SBIW R28,4
-000063 940e 00fe 	CALL __SAVELOCR4
+000063 940e 0112 	CALL __SAVELOCR4
                  ;	x -> Y+8
                  ;	temp -> R16,R17
                  ;	arr -> Y+4
@@ -1271,7 +1275,7 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 00006b e0f0      	LDI  R31,0
 00006c e0a3      	LDI  R26,LOW(3)
 00006d e0b0      	LDI  R27,HIGH(3)
-00006e 940e 00f7 	CALL __SWAPW12
+00006e 940e 010b 	CALL __SWAPW12
 000070 1bea      	SUB  R30,R26
 000071 0bfb      	SBC  R31,R27
 000072 01de      	MOVW R26,R28
@@ -1282,14 +1286,14 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 000077 01d8      	MOVW R26,R16
 000078 e0ea      	LDI  R30,LOW(10)
 000079 e0f0      	LDI  R31,HIGH(10)
-00007a 940e 00f4 	CALL __MODW21U
+00007a 940e 0108 	CALL __MODW21U
 00007c 01db      	MOVW R26,R22
 00007d 93ec      	ST   X,R30
                  ; 0000 0014         temp = temp / 10;
 00007e 01d8      	MOVW R26,R16
 00007f e0ea      	LDI  R30,LOW(10)
 000080 e0f0      	LDI  R31,HIGH(10)
-000081 940e 00e1 	CALL __DIVW21U
+000081 940e 00f5 	CALL __DIVW21U
 000083 018f      	MOVW R16,R30
                  ; 0000 0015     }
 000084 5f3f      	SUBI R19,-1
@@ -1300,7 +1304,7 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 000086 98ac      	CBI  0x15,4
                  ; 0000 0018    PORTB = number[arr[0]];
 000087 81ec      	LDD  R30,Y+4
-000088 d045      	RCALL SUBOPT_0x0
+000088 d051      	RCALL SUBOPT_0x0
                  ; 0000 0019    delay_ms(5);
                  ; 0000 001A    DK1 = 1;
 000089 9aac      	SBI  0x15,4
@@ -1309,7 +1313,7 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 00008a 98ad      	CBI  0x15,5
                  ; 0000 001D    PORTB = number[arr[1]];
 00008b 81ed      	LDD  R30,Y+5
-00008c d041      	RCALL SUBOPT_0x0
+00008c d04d      	RCALL SUBOPT_0x0
                  ; 0000 001E    delay_ms(5);
                  ; 0000 001F    DK2 = 1;
 00008d 9aad      	SBI  0x15,5
@@ -1318,7 +1322,7 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 00008e 98ae      	CBI  0x15,6
                  ; 0000 0022    PORTB = number[arr[2]];
 00008f 81ee      	LDD  R30,Y+6
-000090 d03d      	RCALL SUBOPT_0x0
+000090 d049      	RCALL SUBOPT_0x0
                  ; 0000 0023    delay_ms(5);
                  ; 0000 0024    DK3 = 1;
 000091 9aae      	SBI  0x15,6
@@ -1327,13 +1331,13 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
 000092 98af      	CBI  0x15,7
                  ; 0000 0027    PORTB = number[arr[3]];
 000093 81ef      	LDD  R30,Y+7
-000094 d039      	RCALL SUBOPT_0x0
+000094 d045      	RCALL SUBOPT_0x0
                  ; 0000 0028    delay_ms(5);
                  ; 0000 0029    DK4 = 1;
 000095 9aaf      	SBI  0x15,7
                  ; 0000 002A 
                  ; 0000 002B }
-000096 940e 0103 	CALL __LOADLOCR4
+000096 940e 0117 	CALL __LOADLOCR4
 000098 962a      	ADIW R28,10
 000099 9508      	RET
                  ; .FEND
@@ -1363,101 +1367,137 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
                  ; 0000 0038 DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
 0000a3 e0e0      	LDI  R30,LOW(0)
 0000a4 bbe1      	OUT  0x11,R30
-                 ; 0000 0039 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
-0000a5 bbe2      	OUT  0x12,R30
+                 ; 0000 0039 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
+0000a5 e0e3      	LDI  R30,LOW(3)
+0000a6 bbe2      	OUT  0x12,R30
                  ; 0000 003A 
                  ; 0000 003B TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
-0000a6 bfe3      	OUT  0x33,R30
+0000a7 e0e0      	LDI  R30,LOW(0)
+0000a8 bfe3      	OUT  0x33,R30
                  ; 0000 003C TCNT0=0x00;
-0000a7 bfe2      	OUT  0x32,R30
+0000a9 bfe2      	OUT  0x32,R30
                  ; 0000 003D OCR0=0x00;
-0000a8 bfec      	OUT  0x3C,R30
+0000aa bfec      	OUT  0x3C,R30
                  ; 0000 003E 
                  ; 0000 003F TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
-0000a9 bdef      	OUT  0x2F,R30
+0000ab bdef      	OUT  0x2F,R30
                  ; 0000 0040 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
-0000aa bdee      	OUT  0x2E,R30
+0000ac bdee      	OUT  0x2E,R30
                  ; 0000 0041 TCNT1H=0x00;
-0000ab bded      	OUT  0x2D,R30
+0000ad bded      	OUT  0x2D,R30
                  ; 0000 0042 TCNT1L=0x00;
-0000ac bdec      	OUT  0x2C,R30
+0000ae bdec      	OUT  0x2C,R30
                  ; 0000 0043 ICR1H=0x00;
-0000ad bde7      	OUT  0x27,R30
+0000af bde7      	OUT  0x27,R30
                  ; 0000 0044 ICR1L=0x00;
-0000ae bde6      	OUT  0x26,R30
+0000b0 bde6      	OUT  0x26,R30
                  ; 0000 0045 OCR1AH=0x00;
-0000af bdeb      	OUT  0x2B,R30
+0000b1 bdeb      	OUT  0x2B,R30
                  ; 0000 0046 OCR1AL=0x00;
-0000b0 bdea      	OUT  0x2A,R30
+0000b2 bdea      	OUT  0x2A,R30
                  ; 0000 0047 OCR1BH=0x00;
-0000b1 bde9      	OUT  0x29,R30
+0000b3 bde9      	OUT  0x29,R30
                  ; 0000 0048 OCR1BL=0x00;
-0000b2 bde8      	OUT  0x28,R30
+0000b4 bde8      	OUT  0x28,R30
                  ; 0000 0049 
                  ; 0000 004A ASSR=0<<AS2;
-0000b3 bde2      	OUT  0x22,R30
+0000b5 bde2      	OUT  0x22,R30
                  ; 0000 004B TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
-0000b4 bde5      	OUT  0x25,R30
+0000b6 bde5      	OUT  0x25,R30
                  ; 0000 004C TCNT2=0x00;
-0000b5 bde4      	OUT  0x24,R30
+0000b7 bde4      	OUT  0x24,R30
                  ; 0000 004D OCR2=0x00;
-0000b6 bde3      	OUT  0x23,R30
+0000b8 bde3      	OUT  0x23,R30
                  ; 0000 004E 
                  ; 0000 004F TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
-0000b7 bfe9      	OUT  0x39,R30
+0000b9 bfe9      	OUT  0x39,R30
                  ; 0000 0050 
                  ; 0000 0051 MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
-0000b8 bfe5      	OUT  0x35,R30
+0000ba bfe5      	OUT  0x35,R30
                  ; 0000 0052 MCUCSR=(0<<ISC2);
-0000b9 bfe4      	OUT  0x34,R30
+0000bb bfe4      	OUT  0x34,R30
                  ; 0000 0053 
                  ; 0000 0054 UCSRB=(0<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
-0000ba b9ea      	OUT  0xA,R30
+0000bc b9ea      	OUT  0xA,R30
                  ; 0000 0055 
                  ; 0000 0056 ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
-0000bb e8e0      	LDI  R30,LOW(128)
-0000bc b9e8      	OUT  0x8,R30
+0000bd e8e0      	LDI  R30,LOW(128)
+0000be b9e8      	OUT  0x8,R30
                  ; 0000 0057 SFIOR=(0<<ACME);
-0000bd e0e0      	LDI  R30,LOW(0)
-0000be bfe0      	OUT  0x30,R30
+0000bf e0e0      	LDI  R30,LOW(0)
+0000c0 bfe0      	OUT  0x30,R30
                  ; 0000 0058 
                  ; 0000 0059 ADCSRA=(0<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
-0000bf b9e6      	OUT  0x6,R30
+0000c1 b9e6      	OUT  0x6,R30
                  ; 0000 005A 
                  ; 0000 005B SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
-0000c0 b9ed      	OUT  0xD,R30
+0000c2 b9ed      	OUT  0xD,R30
                  ; 0000 005C 
                  ; 0000 005D TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
-0000c1 bfe6      	OUT  0x36,R30
+0000c3 bfe6      	OUT  0x36,R30
                  ; 0000 005E 
                  ; 0000 005F while (1) {
                  _0x17:
                  ; 0000 0060     // moi ham show delay 20ms => goi ham show 50 lan => 50*20 = 1000ms
                  ; 0000 0061     // cach 1: dung vong For
                  ; 0000 0062     // cach 2
-                 ; 0000 0063       show(x);
-0000c2 01d2      	MOVW R26,R4
-0000c3 df9c      	RCALL _show
+                 ; 0000 0063      /* show(x);
                  ; 0000 0064       i++;
-0000c4 9473      	INC  R7
                  ; 0000 0065       if (i > 50)
-0000c5 e3e2      	LDI  R30,LOW(50)
-0000c6 15e7      	CP   R30,R7
-0000c7 f420      	BRSH _0x1A
                  ; 0000 0066       {
                  ; 0000 0067             x++;
-0000c8 01f2      	MOVW R30,R4
-0000c9 9631      	ADIW R30,1
-0000ca 012f      	MOVW R4,R30
                  ; 0000 0068             i = 0;
-0000cb 2477      	CLR  R7
                  ; 0000 0069       }
-                 ; 0000 006A     }
-                 _0x1A:
-0000cc cff5      	RJMP _0x17
-                 ; 0000 006B }
+                 ; 0000 006A       */
+                 ; 0000 006B      // Task 3: Giao tiep voi nut bam nhan giu tang 1 don vi
+                 ; 0000 006C      show(x);
+0000c4 01d2      	MOVW R26,R4
+0000c5 df9a      	RCALL _show
+                 ; 0000 006D      if (PIND.0 == 0)
+0000c6 9980      	SBIC 0x10,0
+0000c7 c007      	RJMP _0x1A
+                 ; 0000 006E      {
+                 ; 0000 006F         count++;
+0000c8 d01a      	RCALL SUBOPT_0x1
+                 ; 0000 0070         if (count > 25)
+0000c9 f428      	BRSH _0x1B
+                 ; 0000 0071         {
+                 ; 0000 0072             x++;
+0000ca 01f2      	MOVW R30,R4
+0000cb 9631      	ADIW R30,1
+0000cc 012f      	MOVW R4,R30
+                 ; 0000 0073             count = 0;
+0000cd 2466      	CLR  R6
+0000ce 2477      	CLR  R7
+                 ; 0000 0074         }
+                 ; 0000 0075      }
                  _0x1B:
-0000cd cfff      	RJMP _0x1B
+                 ; 0000 0076      if (PIND.1 == 0)
+                 _0x1A:
+0000cf 9981      	SBIC 0x10,1
+0000d0 c007      	RJMP _0x1C
+                 ; 0000 0077      {
+                 ; 0000 0078         count++;
+0000d1 d011      	RCALL SUBOPT_0x1
+                 ; 0000 0079         if (count > 25)
+0000d2 f428      	BRSH _0x1D
+                 ; 0000 007A         {
+                 ; 0000 007B             x--;
+0000d3 01f2      	MOVW R30,R4
+0000d4 9731      	SBIW R30,1
+0000d5 012f      	MOVW R4,R30
+                 ; 0000 007C             count = 0;
+0000d6 2466      	CLR  R6
+0000d7 2477      	CLR  R7
+                 ; 0000 007D         }
+                 ; 0000 007E      }
+                 _0x1D:
+                 ; 0000 007F     }
+                 _0x1C:
+0000d8 cfeb      	RJMP _0x17
+                 ; 0000 0080 }
+                 _0x1E:
+0000d9 cfff      	RJMP _0x1E
                  ; .FEND
                  
                  	.DSEG
@@ -1467,91 +1507,102 @@ F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1090): warning: Register r7 alrea
                  	.CSEG
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:18 WORDS
                  SUBOPT_0x0:
-0000ce e0f0      	LDI  R31,0
-0000cf 5ae0      	SUBI R30,LOW(-_number)
-0000d0 4ffe      	SBCI R31,HIGH(-_number)
-0000d1 81e0      	LD   R30,Z
-0000d2 bbe8      	OUT  0x18,R30
-0000d3 e0a5      	LDI  R26,LOW(5)
-0000d4 e0b0      	LDI  R27,0
-0000d5 940c 00d7 	JMP  _delay_ms
+0000da e0f0      	LDI  R31,0
+0000db 5ae0      	SUBI R30,LOW(-_number)
+0000dc 4ffe      	SBCI R31,HIGH(-_number)
+0000dd 81e0      	LD   R30,Z
+0000de bbe8      	OUT  0x18,R30
+0000df e0a5      	LDI  R26,LOW(5)
+0000e0 e0b0      	LDI  R27,0
+0000e1 940c 00eb 	JMP  _delay_ms
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+                 SUBOPT_0x1:
+0000e3 01f3      	MOVW R30,R6
+0000e4 9631      	ADIW R30,1
+0000e5 013f      	MOVW R6,R30
+0000e6 e1e9      	LDI  R30,LOW(25)
+0000e7 e0f0      	LDI  R31,HIGH(25)
+0000e8 15e6      	CP   R30,R6
+0000e9 05f7      	CPC  R31,R7
+0000ea 9508      	RET
                  
                  
                  	.CSEG
                  _delay_ms:
-0000d7 9610      	adiw r26,0
-0000d8 f039      	breq __delay_ms1
+0000eb 9610      	adiw r26,0
+0000ec f039      	breq __delay_ms1
                  __delay_ms0:
                 +
-0000d9 ed80     +LDI R24 , LOW ( 0x7D0 )
-0000da e097     +LDI R25 , HIGH ( 0x7D0 )
+0000ed ed80     +LDI R24 , LOW ( 0x7D0 )
+0000ee e097     +LDI R25 , HIGH ( 0x7D0 )
                 +__DELAY_USW_LOOP :
-0000db 9701     +SBIW R24 , 1
-0000dc f7f1     +BRNE __DELAY_USW_LOOP
+0000ef 9701     +SBIW R24 , 1
+0000f0 f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 0x7D0
-0000dd 95a8      	wdr
-0000de 9711      	sbiw r26,1
-0000df f7c9      	brne __delay_ms0
+0000f1 95a8      	wdr
+0000f2 9711      	sbiw r26,1
+0000f3 f7c9      	brne __delay_ms0
                  __delay_ms1:
-0000e0 9508      	ret
+0000f4 9508      	ret
                  
                  __DIVW21U:
-0000e1 2400      	CLR  R0
-0000e2 2411      	CLR  R1
-0000e3 e190      	LDI  R25,16
+0000f5 2400      	CLR  R0
+0000f6 2411      	CLR  R1
+0000f7 e190      	LDI  R25,16
                  __DIVW21U1:
-0000e4 0faa      	LSL  R26
-0000e5 1fbb      	ROL  R27
-0000e6 1c00      	ROL  R0
-0000e7 1c11      	ROL  R1
-0000e8 1a0e      	SUB  R0,R30
-0000e9 0a1f      	SBC  R1,R31
-0000ea f418      	BRCC __DIVW21U2
-0000eb 0e0e      	ADD  R0,R30
-0000ec 1e1f      	ADC  R1,R31
-0000ed c001      	RJMP __DIVW21U3
+0000f8 0faa      	LSL  R26
+0000f9 1fbb      	ROL  R27
+0000fa 1c00      	ROL  R0
+0000fb 1c11      	ROL  R1
+0000fc 1a0e      	SUB  R0,R30
+0000fd 0a1f      	SBC  R1,R31
+0000fe f418      	BRCC __DIVW21U2
+0000ff 0e0e      	ADD  R0,R30
+000100 1e1f      	ADC  R1,R31
+000101 c001      	RJMP __DIVW21U3
                  __DIVW21U2:
-0000ee 60a1      	SBR  R26,1
+000102 60a1      	SBR  R26,1
                  __DIVW21U3:
-0000ef 959a      	DEC  R25
-0000f0 f799      	BRNE __DIVW21U1
-0000f1 01fd      	MOVW R30,R26
-0000f2 01d0      	MOVW R26,R0
-0000f3 9508      	RET
+000103 959a      	DEC  R25
+000104 f799      	BRNE __DIVW21U1
+000105 01fd      	MOVW R30,R26
+000106 01d0      	MOVW R26,R0
+000107 9508      	RET
                  
                  __MODW21U:
-0000f4 dfec      	RCALL __DIVW21U
-0000f5 01fd      	MOVW R30,R26
-0000f6 9508      	RET
+000108 dfec      	RCALL __DIVW21U
+000109 01fd      	MOVW R30,R26
+00010a 9508      	RET
                  
                  __SWAPW12:
-0000f7 2e1b      	MOV  R1,R27
-0000f8 2fbf      	MOV  R27,R31
-0000f9 2df1      	MOV  R31,R1
+00010b 2e1b      	MOV  R1,R27
+00010c 2fbf      	MOV  R27,R31
+00010d 2df1      	MOV  R31,R1
                  
                  __SWAPB12:
-0000fa 2e1a      	MOV  R1,R26
-0000fb 2fae      	MOV  R26,R30
-0000fc 2de1      	MOV  R30,R1
-0000fd 9508      	RET
+00010e 2e1a      	MOV  R1,R26
+00010f 2fae      	MOV  R26,R30
+000110 2de1      	MOV  R30,R1
+000111 9508      	RET
                  
                  __SAVELOCR4:
-0000fe 933a      	ST   -Y,R19
+000112 933a      	ST   -Y,R19
                  __SAVELOCR3:
-0000ff 932a      	ST   -Y,R18
+000113 932a      	ST   -Y,R18
                  __SAVELOCR2:
-000100 931a      	ST   -Y,R17
-000101 930a      	ST   -Y,R16
-000102 9508      	RET
+000114 931a      	ST   -Y,R17
+000115 930a      	ST   -Y,R16
+000116 9508      	RET
                  
                  __LOADLOCR4:
-000103 813b      	LDD  R19,Y+3
+000117 813b      	LDD  R19,Y+3
                  __LOADLOCR3:
-000104 812a      	LDD  R18,Y+2
+000118 812a      	LDD  R18,Y+2
                  __LOADLOCR2:
-000105 8119      	LDD  R17,Y+1
-000106 8108      	LD   R16,Y
-000107 9508      	RET
+000119 8119      	LDD  R17,Y+1
+00011a 8108      	LD   R16,Y
+00011b 9508      	RET
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -1572,41 +1623,41 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 ATmega16 register use summary:
-r0 :   9 r1 :   9 r2 :   0 r3 :   0 r4 :   3 r5 :   0 r6 :   0 r7 :   3 
+r0 :   9 r1 :   9 r2 :   0 r3 :   0 r4 :   5 r5 :   0 r6 :   5 r7 :   3 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
 r16:   6 r17:   3 r18:   2 r19:   6 r20:   0 r21:   0 r22:   4 r23:   0 
-r24:   9 r25:   5 r26:  23 r27:  10 r28:   4 r29:   1 r30:  80 r31:  14 
+r24:   9 r25:   5 r26:  23 r27:  10 r28:   4 r29:   1 r30:  88 r31:  16 
 x  :   4 y  :  16 z  :   8 
-Registers used: 20 out of 35 (57.1%)
+Registers used: 21 out of 35 (60.0%)
 
 ATmega16 instruction use summary:
 .lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   2 add   :   2 
-adiw  :   4 and   :   0 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 
+adiw  :   5 and   :   0 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 
 brbc  :   0 brbs  :   0 brcc  :   1 brcs  :   0 break :   0 breq  :   2 
 brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 
-brlt  :   0 brmi  :   0 brne  :   6 brpl  :   0 brsh  :   2 brtc  :   0 
+brlt  :   0 brmi  :   0 brne  :   6 brpl  :   0 brsh  :   3 brtc  :   0 
 brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 call  :   5 
 cbi   :   4 cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 
-clr   :   5 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   0 
-cp    :   1 cpc   :   0 cpi   :   1 cpse  :   0 dec   :   2 des   :   0 
+clr   :   8 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   0 
+cp    :   1 cpc   :   1 cpi   :   1 cpse  :   0 dec   :   2 des   :   0 
 eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 
-in    :   0 inc   :   1 jmp   :  23 ld    :   2 ldd   :   9 ldi   :  33 
-lds   :   0 lpm   :   7 lsl   :   1 lsr   :   0 mov   :   7 movw  :  15 
+in    :   0 inc   :   0 jmp   :  23 ld    :   2 ldd   :   9 ldi   :  36 
+lds   :   0 lpm   :   7 lsl   :   1 lsr   :   0 mov   :   7 movw  :  19 
 mul   :   0 muls  :   0 mulsu :   0 neg   :   0 nop   :   0 or    :   0 
-ori   :   0 out   :  41 pop   :   0 push  :   0 rcall :   6 ret   :   7 
-reti  :   0 rjmp  :   5 rol   :   3 ror   :   0 sbc   :   2 sbci  :   1 
-sbi   :   4 sbic  :   0 sbis  :   0 sbiw  :   6 sbr   :   1 sbrc  :   0 
+ori   :   0 out   :  41 pop   :   0 push  :   0 rcall :   8 ret   :   8 
+reti  :   0 rjmp  :   7 rol   :   3 ror   :   0 sbc   :   2 sbci  :   1 
+sbi   :   4 sbic  :   2 sbis  :   0 sbiw  :   7 sbr   :   1 sbrc  :   0 
 sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 ser   :   0 
 ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
 st    :  10 std   :   0 sts   :   0 sub   :   2 subi  :   2 swap  :   0 
 tst   :   0 wdr   :   1 
-Instructions used: 37 out of 116 (31.9%)
+Instructions used: 38 out of 116 (32.8%)
 
 ATmega16 memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000210    510     18    528   16384   3.2%
+[.cseg] 0x000000 0x000238    550     18    568   16384   3.5%
 [.dseg] 0x000060 0x00016a      0     10     10    1024   1.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 
-Assembly complete, 0 errors, 3 warnings
+Assembly complete, 0 errors, 5 warnings
