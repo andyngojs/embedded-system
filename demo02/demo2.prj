@@ -119,8 +119,8 @@ WatchAVR8LAutoVariables=0
 UseEEPROMLocation0=1
 RebuildAll=0
 LinkageInformationPresent=1
-COFFileTimeStamp=1397587590
-Build=10
+COFFileTimeStamp=1397589153
+Build=11
 [DefinedSymbolsDebug]
 Count=0
 [Compiler]
@@ -222,7 +222,7 @@ UseEEPROMLocation0=1
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=10
+Build=11
 [DefinedSymbols]
 Count=0
 [StartUp]
@@ -319,8 +319,8 @@ L13=Enhanced function parameters passing: Yes
 L14=Automatic register allocation: Yes
 L15=Smart register allocation: Yes
 L16=
-L17=Build: 10
-L18=909 line(s) compiled
+L17=Build: 11
+L18=855 line(s) compiled
 L19=No errors
 L20=No warnings
 L21=
@@ -347,7 +347,7 @@ Lines=12
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1570): No EEPROM data, deleting F:\Electronics\AVR\demo02\Debug\Exe\demo2.eep
+L4=F:\Electronics\AVR\demo02\Debug\List\demo2.asm(1516): No EEPROM data, deleting F:\Electronics\AVR\demo02\Debug\Exe\demo2.eep
 L5=
 L6=ATmega16 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
