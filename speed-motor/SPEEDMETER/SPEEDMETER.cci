@@ -1,0 +1,11 @@
+VERSION:3 SOURCE_TIMESTAMP:53537812
+NODE:I LEVEL:0 LINE:10 "C:\cvavr\inc\mega16.h"
+NODE:I LEVEL:0 LINE:11 "C:\cvavr\inc\alcd.h"
+NODE:V LEVEL:0 LINE:14 "chan -> R5"
+NODE:V LEVEL:0 LINE:14 "le -> R4"
+NODE:V LEVEL:0 LINE:14 "MOTOR_ON -> R7"
+NODE:V LEVEL:0 LINE:15 "fullSpeed -> R8,R9"
+NODE:F LEVEL:0 LINE:18 "ext_int0_isr(void)"
+NODE:F LEVEL:0 LINE:33 "timer0_ovf_isr(void)"
+NODE:F LEVEL:0 LINE:39 "putnumber(unsigned int num)"
+NODE:F LEVEL:0 LINE:53 "main(void)"

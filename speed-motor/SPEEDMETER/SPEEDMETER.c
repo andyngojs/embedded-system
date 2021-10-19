@@ -10,20 +10,44 @@ Comments:
 #include <mega16.h>
 #include <alcd.h>
 
-// Declare your global variables here
+// bool MOTOR_ON;
+unsigned char chan, le, MOTOR_ON = 0;
+unsigned int fullSpeed;
 
 // External Interrupt 0 service routine
 interrupt [EXT_INT0] void ext_int0_isr(void)
 {
-// Place your code here
-
+    if (!MOTOR_ON) {
+        TCCR0 = 0x02;
+        MOTOR_ON = 1;
+    }
+    else {
+        le = TCNT0;
+        TCNT0 = 0;
+        fullSpeed = chan*256+le;
+    }
+    chan = 0;
 }
 
 // Timer 0 overflow interrupt service routine
 interrupt [TIM0_OVF] void timer0_ovf_isr(void)
 {
-// Place your code here
+    chan++;
 
+}
+
+void putnumber(unsigned int num) {
+    unsigned int temp;
+    temp = num;
+    lcd_putchar(temp/10000+48);
+    temp = temp % 10000;
+    lcd_putchar(temp/1000+48);
+    temp = temp % 1000;
+    lcd_putchar(temp/100+48);
+    temp = temp % 100;
+    lcd_putchar(temp/10+48);
+    temp = temp % 10;
+    lcd_putchar(temp+48);
 }
 
 void main(void)
@@ -151,7 +175,8 @@ lcd_init(8);
 
 while (1)
       {
-      // Place your code here
+        lcd_gotoxy(5,0);
+        putnumber(fullSpeed);
 
       }
 }

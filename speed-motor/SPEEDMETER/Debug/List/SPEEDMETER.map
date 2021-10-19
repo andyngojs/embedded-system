@@ -1,0 +1,33 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+_base_y                                                                           0x0160       4
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+chan                                                                              R5           1
+le                                                                                R4           1
+MOTOR_ON                                                                          R7           1
+fullSpeed                                                                         R8,R9        2
+_lcd_x                                                                            R6           1
+_lcd_y                                                                            R11          1
+_lcd_maxx                                                                         R10          1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+ext_int0_isr                                                                      0x00060     40
+timer0_ovf_isr                                                                    0x00088      6
+putnumber                                                                         0x0008E     40
+main                                                                              0x000B6     57
+_lcd_write_nibble_G100                                                            0x000EF     20
+_lcd_write_data                                                                   0x00103     12
+lcd_gotoxy                                                                        0x0010F     13
+lcd_clear                                                                         0x0011C     10
+lcd_putchar                                                                       0x00126     20
+lcd_init                                                                          0x0013A     43
