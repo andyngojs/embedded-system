@@ -1555,8 +1555,8 @@ _main:
 ; 0000 00B0 while (1)
 _0x5:
 ; 0000 00B1       {
-; 0000 00B2         lcd_gotoxy(5,0);
-	LDI  R30,LOW(5)
+; 0000 00B2         lcd_gotoxy(2,0);
+	LDI  R30,LOW(2)
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	RCALL _lcd_gotoxy

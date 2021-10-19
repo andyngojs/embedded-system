@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  F:\Electronics\AVR\speed-motor\SPEEDMETER\Debug\List\SPEEDMETER.asm Tue Oct 19 15:00:35 2021
+AVRASM ver. 2.1.30  F:\Electronics\AVR\speed-motor\SPEEDMETER\Debug\List\SPEEDMETER.asm Tue Oct 19 15:12:45 2021
 
 F:\Electronics\AVR\speed-motor\SPEEDMETER\Debug\List\SPEEDMETER.asm(1088): warning: Register r5 already defined by the .DEF directive
 F:\Electronics\AVR\speed-motor\SPEEDMETER\Debug\List\SPEEDMETER.asm(1089): warning: Register r4 already defined by the .DEF directive
@@ -1571,8 +1571,8 @@ F:\Electronics\AVR\speed-motor\SPEEDMETER\Debug\List\SPEEDMETER.asm(1128): warni
                  ; 0000 00B0 while (1)
                  _0x5:
                  ; 0000 00B1       {
-                 ; 0000 00B2         lcd_gotoxy(5,0);
-0000e7 e0e5      	LDI  R30,LOW(5)
+                 ; 0000 00B2         lcd_gotoxy(2,0);
+0000e7 e0e2      	LDI  R30,LOW(2)
 0000e8 93ea      	ST   -Y,R30
 0000e9 e0a0      	LDI  R26,LOW(0)
 0000ea d024      	RCALL _lcd_gotoxy

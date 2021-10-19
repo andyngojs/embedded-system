@@ -375,7 +375,7 @@
 ; 0000 00B0 while (1)
 ;PCODE: $000000B6 VOL: 0
 ; 0000 00B1       {
-; 0000 00B2         lcd_gotoxy(5,0);
+; 0000 00B2         lcd_gotoxy(2,0);
 ;PCODE: $000000B7 VOL: 0
 ;PCODE: $000000B8 VOL: 0
 ;PCODE: $000000B9 VOL: 0

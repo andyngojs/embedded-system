@@ -175,7 +175,7 @@ lcd_init(8);
 
 while (1)
       {
-        lcd_gotoxy(5,0);
+        lcd_gotoxy(2,0);
         putnumber(fullSpeed);
 
       }

@@ -36,6 +36,20 @@ interrupt [TIM0_OVF] void timer0_ovf_isr(void)
 
 }
 
+void putnumber(unsigned int num) {
+    unsigned int temp;
+    temp = num;
+    lcd_putchar(temp/10000+48);
+    temp = temp % 10000;
+    lcd_putchar(temp/1000+48);
+    temp = temp % 1000;
+    lcd_putchar(temp/100+48);
+    temp = temp % 100;
+    lcd_putchar(temp/10+48);
+    temp = temp % 10;
+    lcd_putchar(temp+48);
+}
+
 void main(void)
 {
 // Input/Output Ports initialization
@@ -161,7 +175,8 @@ lcd_init(8);
 
 while (1)
       {
-      // Place your code here
+        lcd_gotoxy(4,0);
+        putnumber(fullSpeed);
 
       }
 }
