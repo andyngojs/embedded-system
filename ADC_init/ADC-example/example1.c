@@ -1,8 +1,22 @@
+/*******************************************************
+Date    : 10/20/2021
+Author  : andyngojs
+Chip type               : ATmega16
+Program type            : Application
+AVR Core Clock frequency: 8.000000 MHz
+Memory model            : Small
+External RAM size       : 0
+Data Stack size         : 256
+*******************************************************/
+
 #include <mega16.h>
 #include <delay.h>
 
 #define FIRST_ADC_INPUT 0
 #define LAST_ADC_INPUT 0
+unsigned int adc_data[LAST_ADC_INPUT-FIRST_ADC_INPUT+1];
+// Voltage Reference: AREF pin
+#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
 
 #define DK1     PORTC.4
 #define DK2     PORTC.5
@@ -13,41 +27,13 @@ unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80
 // Bang ma hien thi led 7 segment co dau cham
 unsigned char number1[10] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x00, 0x10};
 
-unsigned char dienap;
-
-void show(unsigned int x) {
-    unsigned char a,b ;
-    b = x % 10;
-    a = x / 10;
-   // hien thi
-   DK1 = 0;
-   PORTB = number1[a];
-   delay_ms(10);
-   DK1 = 1;
-
-   DK2 = 0;
-   PORTB = number[b];
-   delay_ms(10);
-   DK2 = 1;
-
-   DK3 = 1;
-
-   DK4 = 1;
-
-}
-
-unsigned char adc_data[LAST_ADC_INPUT-FIRST_ADC_INPUT+1];
-// Voltage Reference: AREF pin
-#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (1<<ADLAR))
-
 // ADC interrupt service routine
 // with auto input scanning
 interrupt [ADC_INT] void adc_isr(void)
 {
 static unsigned char input_index=0;
-// Read the 8 most significant bits
-// of the AD conversion result
-adc_data[input_index]=ADCH;
+// Read the AD conversion result
+adc_data[input_index]=ADCW;
 // Select next ADC input
 if (++input_index > (LAST_ADC_INPUT-FIRST_ADC_INPUT))
    input_index=0;
@@ -58,10 +44,48 @@ delay_us(10);
 ADCSRA|=(1<<ADSC);
 }
 
+void show1(unsigned int x) {
+    unsigned int a,b;
+    b = x % 10;
+    a = x / 10;
+
+    DK1 = 0;
+    PORTB = number1[a];
+    delay_ms(10);
+    DK1 = 1;
+
+    DK2 = 0;
+    PORTB = number[b];
+    delay_ms(10);
+    DK2 = 1;
+}
+
+void show2(unsigned int x) {
+    unsigned int a, b, c;
+    c = x % 10;
+    x = x / 10;
+    b = x % 10;
+    x = x / 10;
+    a = x % 10;
+
+    DK1 = 0;
+    PORTB = number1[a];
+    delay_ms(6);
+    DK1 = 1;
+
+    DK2 = 0;
+    PORTB = number[b];
+    delay_ms(6);
+    DK2 = 1;
+
+    DK3 = 0;
+    PORTB = number[c];
+    delay_ms(6);
+    DK3 = 1;
+}
+
 void main(void)
 {
-// Declare your local variables here
-
 // Input/Output Ports initialization
 // Port A initialization
 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
@@ -76,10 +100,10 @@ DDRB=(1<<DDB7) | (1<<DDB6) | (1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2) | (1<
 PORTB=(1<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
 
 // Port C initialization
-// Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out
-DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (1<<DDC3) | (1<<DDC2) | (1<<DDC1) | (1<<DDC0);
-// State: Bit7=1 Bit6=1 Bit5=1 Bit4=1 Bit3=1 Bit2=1 Bit1=1 Bit0=1
-PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (1<<PORTC3) | (1<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
+// Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=In Bit2=In Bit1=In Bit0=In
+DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (0<<DDC3) | (0<<DDC2) | (0<<DDC1) | (0<<DDC0);
+// State: Bit7=1 Bit6=1 Bit5=1 Bit4=1 Bit3=T Bit2=T Bit1=T Bit0=T
+PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
 
 // Port D initialization
 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
@@ -155,8 +179,6 @@ ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<AC
 // ADC Clock frequency: 1000.000 kHz
 // ADC Voltage Reference: AREF pin
 // ADC Auto Trigger Source: Free Running
-// Only the 8 most significant bits of
-// the AD conversion result are used
 ADMUX=FIRST_ADC_INPUT | ADC_VREF_TYPE;
 ADCSRA=(1<<ADEN) | (1<<ADSC) | (1<<ADATE) | (0<<ADIF) | (1<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 SFIOR=(0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
@@ -172,9 +194,12 @@ TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 // Global enable interrupts
 #asm("sei")
 
-while (1)
-      {
-        dienap = (50 * (unsigned long)adc_data[0]) / 255;
-        show(dienap);
+while (1) {
+        if (!PIND.0) {
+             show1(26);
+        }
+        if (!PIND.1) {
+            show2(986);
+        }
       }
 }

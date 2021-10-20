@@ -1,10 +1,10 @@
 RAM Allocation [bytes]
 Variable                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-number                                                                            0x0160      10
-number1                                                                           0x016A      10
-adc_data                                                                          0x0174       1
-input_index                                                                       0x0175       1
+adc_data                                                                          0x0160       2
+number                                                                            0x0162      10
+number1                                                                           0x016C      10
+input_index                                                                       0x0176       1
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -13,11 +13,11 @@ Variable                                                                        
 Register Allocation
 Variable                                                                          Register  Size
 ------------------------------------------------------------------------------------------------
-dienap                                                                            R5           1
 
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-show                                                                              0x00068     37
-adc_isr                                                                           0x0008D     38
-main                                                                              0x000B3     66
+adc_isr                                                                           0x00068     45
+show1                                                                             0x00095     23
+show2                                                                             0x000AC     43
+main                                                                              0x000D7     56

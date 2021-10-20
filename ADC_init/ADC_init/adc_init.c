@@ -16,33 +16,21 @@ unsigned char number1[10] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x0
 unsigned char dienap;
 
 void show(unsigned int x) {
-    unsigned int temp;
-    unsigned char arr[4], i;
-    temp = x;
-    for (i = 0; i < 4; i++) // tach so tu duoi lên tren
-    {
-        arr[3 - i] = temp % 10;
-        temp = temp / 10;
-    }
+    unsigned char a,b ;
+    b = x % 10;
+    a = x / 10;
    // hien thi
    DK1 = 0;
-   PORTB = number[arr[0]];
-   delay_ms(5);
+   PORTB = number1[a];
+   delay_ms(10);
    DK1 = 1;
 
    DK2 = 0;
-   PORTB = number[arr[1]];
-   delay_ms(5);
+   PORTB = number[b];
+   delay_ms(10);
    DK2 = 1;
 
-   DK3 = 0;
-   PORTB = number1[arr[2]];
-   delay_ms(5);
    DK3 = 1;
-
-   DK4 = 0;
-   PORTB = number[arr[3]];
-   delay_ms(5);
    DK4 = 1;
 
 }
@@ -185,8 +173,7 @@ TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 
 while (1)
       {
-        dienap = (50 * adc_data[0]) / 255;
+        dienap = (50 * (unsigned long)adc_data[0]) / 255;
         show(dienap);
-
       }
 }
