@@ -13,11 +13,13 @@ Variable                                                                        
 Register Allocation
 Variable                                                                          Register  Size
 ------------------------------------------------------------------------------------------------
+dienAp                                                                            R4,R5        2
+mode                                                                              R7           1
 
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-adc_isr                                                                           0x00068     45
-show1                                                                             0x00095     23
-show2                                                                             0x000AC     43
-main                                                                              0x000D7     56
+adc_isr                                                                           0x0006C     45
+show1                                                                             0x00099     23
+show2                                                                             0x000B0     43
+main                                                                              0x000DB     64

@@ -1,14 +1,3 @@
-/*******************************************************
-Date    : 10/20/2021
-Author  : andyngojs
-Chip type               : ATmega16
-Program type            : Application
-AVR Core Clock frequency: 8.000000 MHz
-Memory model            : Small
-External RAM size       : 0
-Data Stack size         : 256
-*******************************************************/
-
 #include <mega16.h>
 #include <delay.h>
 
@@ -26,6 +15,9 @@ unsigned int adc_data[LAST_ADC_INPUT-FIRST_ADC_INPUT+1];
 unsigned char number[10] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90};
 // Bang ma hien thi led 7 segment co dau cham
 unsigned char number1[10] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x00, 0x10};
+
+unsigned int dienAp;
+unsigned char mode = 0;
 
 // ADC interrupt service routine
 // with auto input scanning
@@ -101,9 +93,9 @@ PORTB=(1<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<
 
 // Port C initialization
 // Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=In Bit2=In Bit1=In Bit0=In
-DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (0<<DDC3) | (0<<DDC2) | (0<<DDC1) | (0<<DDC0);
+DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (0<<DDC3) | (0<<DDC2) | (1<<DDC1) | (1<<DDC0);
 // State: Bit7=1 Bit6=1 Bit5=1 Bit4=1 Bit3=T Bit2=T Bit1=T Bit0=T
-PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
+PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
 
 // Port D initialization
 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
@@ -196,10 +188,39 @@ TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 
 while (1) {
         if (!PIND.0) {
-             show1(26);
+            mode = 1 - mode;
+            while(!PIND.0)
+            {
+               if (mode == 0)
+                {
+                    dienAp = (50 * adc_data[0]) / 1023;
+                    show1(dienAp);
+                    PORTC.0 = 0;
+                    PORTC.1 = 1;
+                }
+               else
+                {
+                   dienAp = (500 * (unsigned long)adc_data[0]) / 1023;
+                   show2(dienAp);
+                   PORTC.0 = 1;
+                   PORTC.1 = 0;
+                }
+            }
+
         }
-        if (!PIND.1) {
-            show2(986);
+        if (mode == 0)
+        {
+            dienAp = (50 * adc_data[0]) / 1023;
+            show1(dienAp);
+            PORTC.0 = 0;
+            PORTC.1 = 1;
+        }
+        else
+        {
+            dienAp = (500 * (unsigned long)adc_data[0]) / 1023;
+            show2(dienAp);
+            PORTC.0 = 1;
+            PORTC.1 = 0;
         }
       }
 }
