@@ -20,13 +20,13 @@ _lcd_maxx                                                                       
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-adc_isr                                                                           0x00063     45
-readTemp                                                                          0x00090     27
-main                                                                              0x000AB     94
-_lcd_write_nibble_G100                                                            0x00109     20
-_lcd_write_data                                                                   0x0011D     12
-lcd_gotoxy                                                                        0x00129     13
-lcd_clear                                                                         0x00136     10
-lcd_putchar                                                                       0x00140     21
-lcd_putsf                                                                         0x00155     19
-lcd_init                                                                          0x00168     43
+adc_isr                                                                           0x00061     45
+readTemp                                                                          0x0008E     27
+main                                                                              0x000A9     94
+_lcd_write_nibble_G100                                                            0x00107     20
+_lcd_write_data                                                                   0x0011B     12
+lcd_gotoxy                                                                        0x00127     13
+lcd_clear                                                                         0x00134     10
+lcd_putchar                                                                       0x0013E     21
+lcd_putsf                                                                         0x00153     19
+lcd_init                                                                          0x00166     43

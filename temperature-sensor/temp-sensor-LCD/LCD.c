@@ -5,7 +5,7 @@
 #define FIRST_ADC_INPUT 0
 #define LAST_ADC_INPUT 0
 
-unsigned int temp;
+int temp;
 
 unsigned int adc_data[LAST_ADC_INPUT-FIRST_ADC_INPUT+1];
 // Voltage Reference: AREF pin
@@ -28,8 +28,8 @@ interrupt [ADC_INT] void adc_isr(void)
     ADCSRA|=(1<<ADSC);
 }
 
-void readTemp(unsigned int temp) {
-     unsigned int x;
+void readTemp(int temp) {
+     int x;
      x = temp;
      lcd_putchar(x/10+48);
      x = x % 10;
@@ -95,11 +95,11 @@ void main(void)
     while (1)
       {
         lcd_gotoxy(0,0);
-        lcd_putsf("Nhiet Do: ");
+        lcd_putsf("Temp: ");
         temp = ( 500 * (long)adc_data[0]) / 1023;
-        lcd_gotoxy(10,0);
+        lcd_gotoxy(6,0);
         readTemp(temp);
-        lcd_gotoxy(12,0);
+        lcd_gotoxy(8,0);
         lcd_putchar(223);
         lcd_putsf("C");
 

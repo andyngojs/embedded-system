@@ -29,7 +29,7 @@
 ;#define FIRST_ADC_INPUT 0
 ;#define LAST_ADC_INPUT 0
 ;
-;unsigned int temp;
+;int temp;
 ;
 ;unsigned int adc_data[LAST_ADC_INPUT-FIRST_ADC_INPUT+1];
 ;// Voltage Reference: AREF pin
@@ -79,11 +79,11 @@
 ;PCODE: $00000024 VOL: 0
 ;PCODE: $00000025 VOL: 0
 ;
-;void readTemp(unsigned int temp) {
-; 0000 001F void readTemp(unsigned int temp) {
+;void readTemp(int temp) {
+; 0000 001F void readTemp(int temp) {
 ;PCODE: $00000026 VOL: 0
 ;PCODE: $00000027 VOL: 0
-; 0000 0020      unsigned int x;
+; 0000 0020      int x;
 ; 0000 0021      x = temp;
 ;PCODE: $00000028 VOL: 0
 ;PCODE: $00000029 VOL: 0
@@ -257,7 +257,7 @@
 ;PCODE: $0000008E VOL: 0
 ;PCODE: $0000008F VOL: 0
 ;PCODE: $00000090 VOL: 0
-; 0000 0062         lcd_putsf("Nhiet Do: ");
+; 0000 0062         lcd_putsf("Temp: ");
 ;PCODE: $00000091 VOL: 0
 ;PCODE: $00000092 VOL: 0
 ;PCODE: $00000093 VOL: 0
@@ -270,7 +270,7 @@
 ;PCODE: $00000099 VOL: 0
 ;PCODE: $0000009A VOL: 0
 ;PCODE: $0000009B VOL: 0
-; 0000 0064         lcd_gotoxy(10,0);
+; 0000 0064         lcd_gotoxy(6,0);
 ;PCODE: $0000009C VOL: 0
 ;PCODE: $0000009D VOL: 0
 ;PCODE: $0000009E VOL: 0
@@ -278,7 +278,7 @@
 ; 0000 0065         readTemp(temp);
 ;PCODE: $000000A0 VOL: 0
 ;PCODE: $000000A1 VOL: 0
-; 0000 0066         lcd_gotoxy(12,0);
+; 0000 0066         lcd_gotoxy(8,0);
 ;PCODE: $000000A2 VOL: 0
 ;PCODE: $000000A3 VOL: 0
 ;PCODE: $000000A4 VOL: 0

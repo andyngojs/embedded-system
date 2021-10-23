@@ -1,4 +1,4 @@
-VERSION:3 SOURCE_TIMESTAMP:5356B020
+VERSION:3 SOURCE_TIMESTAMP:5357AD9D
 NODE:I LEVEL:0 LINE:1 "C:\cvavr\inc\mega16.h"
 NODE:I LEVEL:0 LINE:2 "C:\cvavr\inc\delay.h"
 NODE:I LEVEL:0 LINE:3 "C:\cvavr\inc\alcd.h"
@@ -9,5 +9,5 @@ NODE:V LEVEL:0 LINE:10 "adc_data -> RAM:????"
 NODE:M LEVEL:0 LINE:12 "ADC_VREF_TYPE"
 NODE:F LEVEL:0 LINE:16 "adc_isr(void)"
 NODE:V LEVEL:0 LINE:18 "input_index_S0000000000 -> RAM:????"
-NODE:F LEVEL:0 LINE:31 "readTemp(unsigned int temp)"
+NODE:F LEVEL:0 LINE:31 "readTemp(int temp)"
 NODE:F LEVEL:0 LINE:39 "main(void)"
