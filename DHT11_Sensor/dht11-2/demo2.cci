@@ -1,0 +1,9 @@
+VERSION:3 SOURCE_TIMESTAMP:535A8A4C
+NODE:I LEVEL:0 LINE:1 "C:\cvavr\inc\mega16.h"
+NODE:I LEVEL:0 LINE:2 "C:\cvavr\inc\delay.h"
+NODE:I LEVEL:0 LINE:3 "F:\Electronics\AVR\DHT11_Sensor\dht11-2\include\dht.h"
+NODE:I LEVEL:0 LINE:6 "C:\cvavr\inc\alcd.h"
+NODE:V LEVEL:0 LINE:8 "temperature -> R4,R5"
+NODE:V LEVEL:0 LINE:9 "humidity -> R6,R7"
+NODE:F LEVEL:0 LINE:11 "readData(int number)"
+NODE:F LEVEL:0 LINE:19 "main(void)"

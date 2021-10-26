@@ -39,6 +39,10 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Folder Include="include\" />
+    <Compile Include="include\dht.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\vs\\CV.targets" />
 </Project>

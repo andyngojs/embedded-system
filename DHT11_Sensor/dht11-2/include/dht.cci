@@ -1,0 +1,10 @@
+VERSION:3 SOURCE_TIMESTAMP:535A84DD
+NODE:I LEVEL:0 LINE:11 "C:\cvavr\inc\stdio.h"
+NODE:I LEVEL:0 LINE:12 "C:\cvavr\inc\string.h"
+NODE:I LEVEL:0 LINE:13 "C:\cvavr\inc\io.h"
+NODE:I LEVEL:0 LINE:14 "C:\cvavr\inc\delay.h"
+NODE:I LEVEL:0 LINE:16 "F:\Electronics\AVR\DHT11_Sensor\dht11-2\include\dht.h"
+NODE:F LEVEL:0 LINE:22 "dht_getdata(float * temperature,float * humidity)"
+NODE:F LEVEL:0 LINE:115 "dht_gettemperature(float * temperature)"
+NODE:F LEVEL:0 LINE:128 "dht_gethumidity(float * humidity)"
+NODE:F LEVEL:0 LINE:141 "dht_gettemperaturehumidity(float * temperature,float * humidity)"

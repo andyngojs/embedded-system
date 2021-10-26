@@ -1,0 +1,4 @@
+main DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"demo2.c" LINE:19
+dht_gethumidity DSTACK_USAGE:6 DSTACK_LEVEL:6 FILE:"include\dht.c" LINE:128
+dht_getdata DSTACK_USAGE:22 DSTACK_LEVEL:28 FILE:"include\dht.c" LINE:22
+memset DSTACK_USAGE:5 DSTACK_LEVEL:33 FILE:"C:\cvavr\lib\string.lib" LINE:661

@@ -1,19 +1,7 @@
-/*******************************************************
-Project :
-Version :
-Date    : 10/23/2021
-Author  : andyngojs
-Company :
-Comments:
-*******************************************************/
-
 #include <mega16.h>
 #include <delay.h>
-
-// Alphanumeric LCD functions
+#include "include/dht.h"
 #include <alcd.h>
-
-// Declare your global variables here
 
 #define FIRST_ADC_INPUT 0
 #define LAST_ADC_INPUT 0
@@ -38,10 +26,16 @@ delay_us(10);
 ADCSRA|=(1<<ADSC);
 }
 
+void readTemp(int temp) {
+     int x;
+     x = temp;
+     lcd_putchar(x/10+48);
+     x = x % 10;
+     lcd_putchar(x+48);
+}
+
 void main(void)
 {
-// Declare your local variables here
-
 // Input/Output Ports initialization
 // Port A initialization
 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
@@ -63,7 +57,7 @@ PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<
 
 // Port D initialization
 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
+DDRD=(1<<DDD7) | (1<<DDD6) | (1<<DDD5) | (1<<DDD4) | (1<<DDD3) | (1<<DDD2) | (1<<DDD1) | (1<<DDD0);
 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
 
@@ -165,8 +159,9 @@ lcd_init(16);
 
 while (1)
       {
+
       lcd_gotoxy(1,0);
-      lcd_putsf("hello");
+      lcd_putsf("T = ");
 
       }
 }
