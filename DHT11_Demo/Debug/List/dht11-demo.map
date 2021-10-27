@@ -1,7 +1,9 @@
 RAM Allocation [bytes]
 Variable                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-_base_y                                                                           0x0160       4
+number                                                                            0x0160      10
+_base_y                                                                           0x016A       4
+_lcd_maxx                                                                         0x016E       1
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -16,24 +18,27 @@ cl                                                                              
 i                                                                                 R8,R9        2
 hum                                                                               R6           1
 temp                                                                              R11          1
-_lcd_x                                                                            R10          1
-_lcd_y                                                                            R13          1
-_lcd_maxx                                                                         R12          1
+tempLimit                                                                         R10          1
+_lcd_x                                                                            R13          1
+_lcd_y                                                                            R12          1
 
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-request                                                                           0x0006C      8
-response                                                                          0x00074     23
-recive                                                                            0x0008B     38
-readDHT11                                                                         0x000B1     47
-readData                                                                          0x000E0     27
-handleEvent                                                                       0x000FB     10
-main                                                                              0x00105     89
-_lcd_write_nibble_G100                                                            0x0015E     20
-_lcd_write_data                                                                   0x00172     12
-lcd_gotoxy                                                                        0x0017E     13
-lcd_clear                                                                         0x0018B     10
-lcd_putchar                                                                       0x00195     21
-lcd_putsf                                                                         0x001AA     19
-lcd_init                                                                          0x001BD     43
+request                                                                           0x00074      8
+response                                                                          0x0007C     23
+recive                                                                            0x00093     38
+readDHT11                                                                         0x000B9     47
+readData                                                                          0x000E8     27
+handleTemp                                                                        0x00103     22
+handleHum                                                                         0x00119      8
+display                                                                           0x00121     36
+setTempLimit                                                                      0x00145     15
+main                                                                              0x00154     97
+_lcd_write_nibble_G100                                                            0x001B5     20
+_lcd_write_data                                                                   0x001C9     12
+lcd_gotoxy                                                                        0x001D5     13
+lcd_clear                                                                         0x001E2     10
+lcd_putchar                                                                       0x001EC     23
+lcd_putsf                                                                         0x00203     19
+lcd_init                                                                          0x00216     44
