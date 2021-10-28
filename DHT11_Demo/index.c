@@ -65,10 +65,27 @@ void display(unsigned int x) {
     DK2 = 1;
 }
 
+void displayHumidity(unsigned char hum) {
+    lcd_gotoxy(0,0);
+    lcd_putsf("Humidity: ");
+    readData(hum);
+    lcd_gotoxy(12, 0);
+    lcd_putchar(37);
+}
+
+void displayTemperature(char temp) {
+   lcd_gotoxy(0,1);
+   lcd_putsf("Temp: ");
+   readData(temp);
+   lcd_gotoxy(8,1);
+   lcd_putchar(223);
+   lcd_putchar(67);
+}
+
 void setTempLimit(void){
    if (PINB.2 == 0) {
      tempLimit++;
-     while ( PINB.2 == 0) {
+     while (PINB.2 == 0) {
         display(tempLimit);
      }
    }
@@ -157,19 +174,10 @@ while (1)
         setTempLimit();
 
         readDHT11(&temp,&hum);
-        lcd_gotoxy(0,0);
-        lcd_putsf("Humidity: ");
-        readData(hum);
-        lcd_gotoxy(12, 0);
-        lcd_putchar(37);
+        displayHumidity(hum);
         handleHum(hum);
 
-        lcd_gotoxy(0,1);
-        lcd_putsf("Temp: ");
-        readData(temp);
-        lcd_gotoxy(8,1);
-        lcd_putchar(223);
-        lcd_putchar(67);
+        displayTemperature(temp);
         handleTemp(temp, tempLimit);
       }
 }

@@ -491,272 +491,300 @@
 ;PCODE: $00000119 VOL: 0
 ;PCODE: $0000011A VOL: 0
 ;
-;void setTempLimit(void){
-; 0000 0044 void setTempLimit(void){
+;void displayHumidity(unsigned char hum) {
+; 0000 0044 void displayHumidity(unsigned char hum) {
 ;PCODE: $0000011B VOL: 0
 ;PCODE: $0000011C VOL: 0
-; 0000 0045    if (PINB.2 == 0) {
+; 0000 0045     lcd_gotoxy(0,0);
 ;PCODE: $0000011D VOL: 0
+;	hum -> Y+0
 ;PCODE: $0000011E VOL: 0
 ;PCODE: $0000011F VOL: 0
-; 0000 0046      tempLimit++;
 ;PCODE: $00000120 VOL: 0
-; 0000 0047      while ( PINB.2 == 0) {
 ;PCODE: $00000121 VOL: 0
+; 0000 0046     lcd_putsf("Humidity: ");
 ;PCODE: $00000122 VOL: 0
 ;PCODE: $00000123 VOL: 0
 ;PCODE: $00000124 VOL: 0
-; 0000 0048         display(tempLimit);
+; 0000 0047     readData(hum);
 ;PCODE: $00000125 VOL: 0
 ;PCODE: $00000126 VOL: 0
 ;PCODE: $00000127 VOL: 0
-; 0000 0049      }
+; 0000 0048     lcd_gotoxy(12, 0);
 ;PCODE: $00000128 VOL: 0
 ;PCODE: $00000129 VOL: 0
-; 0000 004A    }
-; 0000 004B    if (PINB.3 == 0) {
 ;PCODE: $0000012A VOL: 0
 ;PCODE: $0000012B VOL: 0
+; 0000 0049     lcd_putchar(37);
 ;PCODE: $0000012C VOL: 0
 ;PCODE: $0000012D VOL: 0
-; 0000 004C     tempLimit--;
+; 0000 004A }
 ;PCODE: $0000012E VOL: 0
-; 0000 004D     while(PINB.3 == 0) {
 ;PCODE: $0000012F VOL: 0
 ;PCODE: $00000130 VOL: 0
+;
+;void displayTemperature(char temp) {
+; 0000 004C void displayTemperature(char temp) {
 ;PCODE: $00000131 VOL: 0
 ;PCODE: $00000132 VOL: 0
-; 0000 004E        display(tempLimit);
+; 0000 004D    lcd_gotoxy(0,1);
 ;PCODE: $00000133 VOL: 0
+;	temp -> Y+0
 ;PCODE: $00000134 VOL: 0
 ;PCODE: $00000135 VOL: 0
-; 0000 004F     }
 ;PCODE: $00000136 VOL: 0
 ;PCODE: $00000137 VOL: 0
-; 0000 0050    }
-; 0000 0051 }
+; 0000 004E    lcd_putsf("Temp: ");
 ;PCODE: $00000138 VOL: 0
 ;PCODE: $00000139 VOL: 0
 ;PCODE: $0000013A VOL: 0
-;
-;void main(void)
-; 0000 0054 {
+; 0000 004F    readData(temp);
 ;PCODE: $0000013B VOL: 0
-; 0000 0055 // Input/Output Ports initialization
-; 0000 0056 // Port A initialization
-; 0000 0057 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-; 0000 0058 DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
 ;PCODE: $0000013C VOL: 0
 ;PCODE: $0000013D VOL: 0
-; 0000 0059 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
-; 0000 005A PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
+; 0000 0050    lcd_gotoxy(8,1);
 ;PCODE: $0000013E VOL: 0
 ;PCODE: $0000013F VOL: 0
-; 0000 005B 
-; 0000 005C // Port B initialization
-; 0000 005D // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-; 0000 005E DDRB=(0<<DDB7) | (0<<DDB6) | (0<<DDB5) | (1<<DDB4) | (0<<DDB3) | (0<<DDB2) | (1<<DDB1) | (1<<DDB0);
 ;PCODE: $00000140 VOL: 0
 ;PCODE: $00000141 VOL: 0
-; 0000 005F // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
-; 0000 0060 PORTB=(0<<PORTB7) | (0<<PORTB6) | (0<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
+; 0000 0051    lcd_putchar(223);
 ;PCODE: $00000142 VOL: 0
 ;PCODE: $00000143 VOL: 0
-; 0000 0061 
-; 0000 0062 // Port C initialization
-; 0000 0063 // Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out
-; 0000 0064 DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (1<<DDC3) | (1<<DDC2) | (1<<DDC1) | (1<<DDC0);
+; 0000 0052    lcd_putchar(67);
 ;PCODE: $00000144 VOL: 0
 ;PCODE: $00000145 VOL: 0
-; 0000 0065 // State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0
-; 0000 0066 PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
+; 0000 0053 }
 ;PCODE: $00000146 VOL: 0
 ;PCODE: $00000147 VOL: 0
-; 0000 0067 
-; 0000 0068 // Port D initialization
-; 0000 0069 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-; 0000 006A DDRD=(1<<DDD7) | (1<<DDD6) | (1<<DDD5) | (1<<DDD4) | (1<<DDD3) | (1<<DDD2) | (1<<DDD1) | (1<<DDD0);
 ;PCODE: $00000148 VOL: 0
+;
+;void setTempLimit(void){
+; 0000 0055 void setTempLimit(void){
 ;PCODE: $00000149 VOL: 0
-; 0000 006B // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
-; 0000 006C PORTD=(1<<PORTD7) | (1<<PORTD6) | (1<<PORTD5) | (1<<PORTD4) | (1<<PORTD3) | (1<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
 ;PCODE: $0000014A VOL: 0
+; 0000 0056    if (PINB.2 == 0) {
 ;PCODE: $0000014B VOL: 0
-; 0000 006D 
-; 0000 006E // Timer/Counter 0 initialization
-; 0000 006F TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
 ;PCODE: $0000014C VOL: 0
 ;PCODE: $0000014D VOL: 0
-; 0000 0070 TCNT0=0x00;
+; 0000 0057      tempLimit++;
 ;PCODE: $0000014E VOL: 0
+; 0000 0058      while (PINB.2 == 0) {
 ;PCODE: $0000014F VOL: 0
-; 0000 0071 OCR0=0x00;
 ;PCODE: $00000150 VOL: 0
 ;PCODE: $00000151 VOL: 0
-; 0000 0072 
-; 0000 0073 // Timer/Counter 1 initialization
-; 0000 0074 TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
 ;PCODE: $00000152 VOL: 0
+; 0000 0059         display(tempLimit);
 ;PCODE: $00000153 VOL: 0
-; 0000 0075 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
 ;PCODE: $00000154 VOL: 0
 ;PCODE: $00000155 VOL: 0
-; 0000 0076 TCNT1H=0x00;
+; 0000 005A      }
 ;PCODE: $00000156 VOL: 0
 ;PCODE: $00000157 VOL: 0
-; 0000 0077 TCNT1L=0x00;
+; 0000 005B    }
+; 0000 005C    if (PINB.3 == 0) {
 ;PCODE: $00000158 VOL: 0
 ;PCODE: $00000159 VOL: 0
-; 0000 0078 ICR1H=0x00;
 ;PCODE: $0000015A VOL: 0
 ;PCODE: $0000015B VOL: 0
-; 0000 0079 ICR1L=0x00;
+; 0000 005D     tempLimit--;
 ;PCODE: $0000015C VOL: 0
+; 0000 005E     while(PINB.3 == 0) {
 ;PCODE: $0000015D VOL: 0
-; 0000 007A OCR1AH=0x00;
 ;PCODE: $0000015E VOL: 0
 ;PCODE: $0000015F VOL: 0
-; 0000 007B OCR1AL=0x00;
 ;PCODE: $00000160 VOL: 0
+; 0000 005F        display(tempLimit);
 ;PCODE: $00000161 VOL: 0
-; 0000 007C OCR1BH=0x00;
 ;PCODE: $00000162 VOL: 0
 ;PCODE: $00000163 VOL: 0
-; 0000 007D OCR1BL=0x00;
+; 0000 0060     }
 ;PCODE: $00000164 VOL: 0
 ;PCODE: $00000165 VOL: 0
-; 0000 007E 
-; 0000 007F // Timer/Counter 2 initialization
-; 0000 0080 ASSR=0<<AS2;
+; 0000 0061    }
+; 0000 0062 }
 ;PCODE: $00000166 VOL: 0
 ;PCODE: $00000167 VOL: 0
-; 0000 0081 TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
 ;PCODE: $00000168 VOL: 0
+;
+;void main(void)
+; 0000 0065 {
 ;PCODE: $00000169 VOL: 0
-; 0000 0082 TCNT2=0x00;
+; 0000 0066 // Input/Output Ports initialization
+; 0000 0067 // Port A initialization
+; 0000 0068 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+; 0000 0069 DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
 ;PCODE: $0000016A VOL: 0
 ;PCODE: $0000016B VOL: 0
-; 0000 0083 OCR2=0x00;
+; 0000 006A // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+; 0000 006B PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
 ;PCODE: $0000016C VOL: 0
 ;PCODE: $0000016D VOL: 0
-; 0000 0084 
-; 0000 0085 // Timer(s)/Counter(s) Interrupt(s) initialization
-; 0000 0086 TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
+; 0000 006C 
+; 0000 006D // Port B initialization
+; 0000 006E // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+; 0000 006F DDRB=(0<<DDB7) | (0<<DDB6) | (0<<DDB5) | (1<<DDB4) | (0<<DDB3) | (0<<DDB2) | (1<<DDB1) | (1<<DDB0);
 ;PCODE: $0000016E VOL: 0
 ;PCODE: $0000016F VOL: 0
-; 0000 0087 
-; 0000 0088 // External Interrupt(s) initialization
-; 0000 0089 MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
+; 0000 0070 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+; 0000 0071 PORTB=(0<<PORTB7) | (0<<PORTB6) | (0<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
 ;PCODE: $00000170 VOL: 0
 ;PCODE: $00000171 VOL: 0
-; 0000 008A MCUCSR=(0<<ISC2);
+; 0000 0072 
+; 0000 0073 // Port C initialization
+; 0000 0074 // Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out
+; 0000 0075 DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (1<<DDC3) | (1<<DDC2) | (1<<DDC1) | (1<<DDC0);
 ;PCODE: $00000172 VOL: 0
 ;PCODE: $00000173 VOL: 0
-; 0000 008B 
-; 0000 008C UCSRB=(1<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
+; 0000 0076 // State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0
+; 0000 0077 PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
 ;PCODE: $00000174 VOL: 0
 ;PCODE: $00000175 VOL: 0
-; 0000 008D 
-; 0000 008E ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
+; 0000 0078 
+; 0000 0079 // Port D initialization
+; 0000 007A // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+; 0000 007B DDRD=(1<<DDD7) | (1<<DDD6) | (1<<DDD5) | (1<<DDD4) | (1<<DDD3) | (1<<DDD2) | (1<<DDD1) | (1<<DDD0);
 ;PCODE: $00000176 VOL: 0
 ;PCODE: $00000177 VOL: 0
-; 0000 008F 
-; 0000 0090 ADCSRA=(1<<ADEN) | (1<<ADSC) | (1<<ADATE) | (0<<ADIF) | (1<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+; 0000 007C // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+; 0000 007D PORTD=(1<<PORTD7) | (1<<PORTD6) | (1<<PORTD5) | (1<<PORTD4) | (1<<PORTD3) | (1<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
 ;PCODE: $00000178 VOL: 0
 ;PCODE: $00000179 VOL: 0
-; 0000 0091 SFIOR=(0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
+; 0000 007E 
+; 0000 007F // Timer/Counter 0 initialization
+; 0000 0080 TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
 ;PCODE: $0000017A VOL: 0
 ;PCODE: $0000017B VOL: 0
-; 0000 0092 
-; 0000 0093 SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
+; 0000 0081 TCNT0=0x00;
 ;PCODE: $0000017C VOL: 0
 ;PCODE: $0000017D VOL: 0
-; 0000 0094 
-; 0000 0095 TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
+; 0000 0082 OCR0=0x00;
 ;PCODE: $0000017E VOL: 0
 ;PCODE: $0000017F VOL: 0
-; 0000 0096 
-; 0000 0097 lcd_init(16);
+; 0000 0083 
+; 0000 0084 // Timer/Counter 1 initialization
+; 0000 0085 TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
 ;PCODE: $00000180 VOL: 0
 ;PCODE: $00000181 VOL: 0
-; 0000 0098 #asm("sei")
+; 0000 0086 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
 ;PCODE: $00000182 VOL: 0
-	sei
 ;PCODE: $00000183 VOL: 0
-; 0000 0099 
-; 0000 009A while (1)
+; 0000 0087 TCNT1H=0x00;
 ;PCODE: $00000184 VOL: 0
-; 0000 009B       {
-; 0000 009C         display(tempLimit);
 ;PCODE: $00000185 VOL: 0
+; 0000 0088 TCNT1L=0x00;
 ;PCODE: $00000186 VOL: 0
 ;PCODE: $00000187 VOL: 0
-; 0000 009D         setTempLimit();
+; 0000 0089 ICR1H=0x00;
 ;PCODE: $00000188 VOL: 0
-; 0000 009E 
-; 0000 009F         readDHT11(&temp,&hum);
 ;PCODE: $00000189 VOL: 0
+; 0000 008A ICR1L=0x00;
 ;PCODE: $0000018A VOL: 0
 ;PCODE: $0000018B VOL: 0
+; 0000 008B OCR1AH=0x00;
 ;PCODE: $0000018C VOL: 0
-; 0000 00A0         lcd_gotoxy(0,0);
 ;PCODE: $0000018D VOL: 0
+; 0000 008C OCR1AL=0x00;
 ;PCODE: $0000018E VOL: 0
 ;PCODE: $0000018F VOL: 0
+; 0000 008D OCR1BH=0x00;
 ;PCODE: $00000190 VOL: 0
-; 0000 00A1         lcd_putsf("Humidity: ");
 ;PCODE: $00000191 VOL: 0
+; 0000 008E OCR1BL=0x00;
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
-; 0000 00A2         readData(hum);
+; 0000 008F 
+; 0000 0090 // Timer/Counter 2 initialization
+; 0000 0091 ASSR=0<<AS2;
 ;PCODE: $00000194 VOL: 0
 ;PCODE: $00000195 VOL: 0
+; 0000 0092 TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
 ;PCODE: $00000196 VOL: 0
-; 0000 00A3         lcd_gotoxy(12, 0);
 ;PCODE: $00000197 VOL: 0
+; 0000 0093 TCNT2=0x00;
 ;PCODE: $00000198 VOL: 0
 ;PCODE: $00000199 VOL: 0
+; 0000 0094 OCR2=0x00;
 ;PCODE: $0000019A VOL: 0
-; 0000 00A4         lcd_putchar(37);
 ;PCODE: $0000019B VOL: 0
+; 0000 0095 
+; 0000 0096 // Timer(s)/Counter(s) Interrupt(s) initialization
+; 0000 0097 TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
 ;PCODE: $0000019C VOL: 0
-; 0000 00A5         handleHum(hum);
 ;PCODE: $0000019D VOL: 0
+; 0000 0098 
+; 0000 0099 // External Interrupt(s) initialization
+; 0000 009A MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
 ;PCODE: $0000019E VOL: 0
-; 0000 00A6 
-; 0000 00A7         lcd_gotoxy(0,1);
 ;PCODE: $0000019F VOL: 0
+; 0000 009B MCUCSR=(0<<ISC2);
 ;PCODE: $000001A0 VOL: 0
 ;PCODE: $000001A1 VOL: 0
+; 0000 009C 
+; 0000 009D UCSRB=(1<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
 ;PCODE: $000001A2 VOL: 0
-; 0000 00A8         lcd_putsf("Temp: ");
 ;PCODE: $000001A3 VOL: 0
+; 0000 009E 
+; 0000 009F ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
 ;PCODE: $000001A4 VOL: 0
 ;PCODE: $000001A5 VOL: 0
-; 0000 00A9         readData(temp);
+; 0000 00A0 
+; 0000 00A1 ADCSRA=(1<<ADEN) | (1<<ADSC) | (1<<ADATE) | (0<<ADIF) | (1<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 ;PCODE: $000001A6 VOL: 0
 ;PCODE: $000001A7 VOL: 0
+; 0000 00A2 SFIOR=(0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
 ;PCODE: $000001A8 VOL: 0
-; 0000 00AA         lcd_gotoxy(8,1);
 ;PCODE: $000001A9 VOL: 0
+; 0000 00A3 
+; 0000 00A4 SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
+; 0000 00A5 
+; 0000 00A6 TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 ;PCODE: $000001AC VOL: 0
-; 0000 00AB         lcd_putchar(223);
 ;PCODE: $000001AD VOL: 0
+; 0000 00A7 
+; 0000 00A8 lcd_init(16);
 ;PCODE: $000001AE VOL: 0
-; 0000 00AC         lcd_putchar(67);
 ;PCODE: $000001AF VOL: 0
+; 0000 00A9 #asm("sei")
 ;PCODE: $000001B0 VOL: 0
-; 0000 00AD         handleTemp(temp, tempLimit);
+	sei
 ;PCODE: $000001B1 VOL: 0
+; 0000 00AA 
+; 0000 00AB while (1)
 ;PCODE: $000001B2 VOL: 0
+; 0000 00AC       {
+; 0000 00AD         display(tempLimit);
 ;PCODE: $000001B3 VOL: 0
-; 0000 00AE       }
 ;PCODE: $000001B4 VOL: 0
 ;PCODE: $000001B5 VOL: 0
-; 0000 00AF }
+; 0000 00AE         setTempLimit();
 ;PCODE: $000001B6 VOL: 0
+; 0000 00AF 
+; 0000 00B0         readDHT11(&temp,&hum);
 ;PCODE: $000001B7 VOL: 0
 ;PCODE: $000001B8 VOL: 0
+;PCODE: $000001B9 VOL: 0
+;PCODE: $000001BA VOL: 0
+; 0000 00B1         displayHumidity(hum);
+;PCODE: $000001BB VOL: 0
+;PCODE: $000001BC VOL: 0
+; 0000 00B2         handleHum(hum);
+;PCODE: $000001BD VOL: 0
+;PCODE: $000001BE VOL: 0
+; 0000 00B3 
+; 0000 00B4         displayTemperature(temp);
+;PCODE: $000001BF VOL: 0
+;PCODE: $000001C0 VOL: 0
+; 0000 00B5         handleTemp(temp, tempLimit);
+;PCODE: $000001C1 VOL: 0
+;PCODE: $000001C2 VOL: 0
+;PCODE: $000001C3 VOL: 0
+; 0000 00B6       }
+;PCODE: $000001C4 VOL: 0
+;PCODE: $000001C5 VOL: 0
+; 0000 00B7 }
+;PCODE: $000001C6 VOL: 0
+;PCODE: $000001C7 VOL: 0
+;PCODE: $000001C8 VOL: 0
 ;
