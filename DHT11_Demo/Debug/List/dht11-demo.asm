@@ -1136,7 +1136,10 @@ _0x24:
 _0x0:
 	.DB  0x48,0x75,0x6D,0x69,0x64,0x69,0x74,0x79
 	.DB  0x3A,0x20,0x0,0x54,0x65,0x6D,0x70,0x3A
-	.DB  0x20,0x0
+	.DB  0x20,0x0,0x74,0x65,0x6D,0x70,0x20,0x74
+	.DB  0x6F,0x6F,0x20,0x68,0x69,0x67,0x68,0x0
+	.DB  0x74,0x65,0x6D,0x70,0x20,0x74,0x6F,0x6F
+	.DB  0x20,0x6C,0x6F,0x77,0x0
 _0x2000003:
 	.DB  0x80,0xC0
 
@@ -1148,6 +1151,14 @@ __GLOBAL_INI_TBL:
 	.DW  0x0A
 	.DW  _number
 	.DW  _0x24*2
+
+	.DW  0x0E
+	.DW  _0x55
+	.DW  _0x0*2+18
+
+	.DW  0x0D
+	.DW  _0x55+14
+	.DW  _0x0*2+32
 
 	.DW  0x02
 	.DW  __base_y_G100
@@ -1592,41 +1603,78 @@ _0x2B:
 _0x31:
 _0x30:
 _0x2A:
-	RJMP _0x2020002
+	RJMP _0x2020003
+; .FEND
+;
+;void warningTemp() {
+; 0000 0029 void warningTemp() {
+_warningTemp:
+; .FSTART _warningTemp
+; 0000 002A     if (temp >= 40) {
+	LDI  R30,LOW(40)
+	CP   R11,R30
+	BRLO _0x36
+; 0000 002B         PORTB.5 = 0;
+	CBI  0x18,5
+; 0000 002C         PORTB.6 = 1;
+	RJMP _0x63
+; 0000 002D     }
+; 0000 002E     else if (temp <= 10) {
+_0x36:
+	LDI  R30,LOW(10)
+	CP   R30,R11
+	BRLO _0x3C
+; 0000 002F         PORTB.5 = 1;
+	SBI  0x18,5
+; 0000 0030         PORTB.6 = 0;
+	CBI  0x18,6
+; 0000 0031     }
+; 0000 0032     else {
+	RJMP _0x41
+_0x3C:
+; 0000 0033        PORTB.5 = 1;
+	SBI  0x18,5
+; 0000 0034        PORTB.6 = 1;
+_0x63:
+	SBI  0x18,6
+; 0000 0035     }
+_0x41:
+; 0000 0036 }
+	RET
 ; .FEND
 ;
 ;void handleHum(unsigned char hum) {
-; 0000 0029 void handleHum(unsigned char hum) {
+; 0000 0038 void handleHum(unsigned char hum) {
 _handleHum:
 ; .FSTART _handleHum
-; 0000 002A     if (hum < 80)
+; 0000 0039     if (hum < 80)
 	ST   -Y,R26
 ;	hum -> Y+0
 	LD   R26,Y
 	CPI  R26,LOW(0x50)
-	BRSH _0x36
-; 0000 002B     {
-; 0000 002C         PORTB.4 = 0;
+	BRSH _0x46
+; 0000 003A     {
+; 0000 003B         PORTB.4 = 0;
 	CBI  0x18,4
-; 0000 002D     }
-; 0000 002E     else
-	RJMP _0x39
-_0x36:
-; 0000 002F     {
-; 0000 0030         PORTB.4 = 1;
+; 0000 003C     }
+; 0000 003D     else
+	RJMP _0x49
+_0x46:
+; 0000 003E     {
+; 0000 003F         PORTB.4 = 1;
 	SBI  0x18,4
-; 0000 0031     }
-_0x39:
-; 0000 0032 }
+; 0000 0040     }
+_0x49:
+; 0000 0041 }
 	JMP  _0x2020001
 ; .FEND
 ;
 ;void display(unsigned int x) {
-; 0000 0034 void display(unsigned int x) {
+; 0000 0043 void display(unsigned int x) {
 _display:
 ; .FSTART _display
-; 0000 0035     unsigned int a, b;
-; 0000 0036     b = x % 10;
+; 0000 0044     unsigned int a, b;
+; 0000 0045     b = x % 10;
 	ST   -Y,R27
 	ST   -Y,R26
 	CALL __SAVELOCR4
@@ -1639,269 +1687,307 @@ _display:
 	LDI  R31,HIGH(10)
 	CALL __MODW21U
 	MOVW R18,R30
-; 0000 0037     a = x / 10;
+; 0000 0046     a = x / 10;
 	LDD  R26,Y+4
 	LDD  R27,Y+4+1
 	LDI  R30,LOW(10)
 	LDI  R31,HIGH(10)
 	CALL __DIVW21U
 	MOVW R16,R30
-; 0000 0038 
-; 0000 0039     DK1 = 0;
+; 0000 0047 
+; 0000 0048     DK1 = 0;
 	CBI  0x15,0
-; 0000 003A     PORTD = number[a];
+; 0000 0049     PORTD = number[a];
 	LDI  R26,LOW(_number)
 	LDI  R27,HIGH(_number)
 	ADD  R26,R16
 	ADC  R27,R17
 	RCALL SUBOPT_0x1
-; 0000 003B     delay_ms(10);
-; 0000 003C     DK1 = 1;
+; 0000 004A     delay_ms(10);
+; 0000 004B     DK1 = 1;
 	SBI  0x15,0
-; 0000 003D 
-; 0000 003E     DK2 = 0;
+; 0000 004C 
+; 0000 004D     DK2 = 0;
 	CBI  0x15,1
-; 0000 003F     PORTD = number[b];
+; 0000 004E     PORTD = number[b];
 	LDI  R26,LOW(_number)
 	LDI  R27,HIGH(_number)
 	ADD  R26,R18
 	ADC  R27,R19
 	RCALL SUBOPT_0x1
-; 0000 0040     delay_ms(10);
-; 0000 0041     DK2 = 1;
+; 0000 004F     delay_ms(10);
+; 0000 0050     DK2 = 1;
 	SBI  0x15,1
-; 0000 0042 }
+; 0000 0051 }
 	CALL __LOADLOCR4
 	ADIW R28,6
 	RET
 ; .FEND
 ;
 ;void displayHumidity(unsigned char hum) {
-; 0000 0044 void displayHumidity(unsigned char hum) {
+; 0000 0053 void displayHumidity(unsigned char hum) {
 _displayHumidity:
 ; .FSTART _displayHumidity
-; 0000 0045     lcd_gotoxy(0,0);
+; 0000 0054     lcd_gotoxy(0,0);
 	ST   -Y,R26
 ;	hum -> Y+0
-	LDI  R30,LOW(0)
-	ST   -Y,R30
-	LDI  R26,LOW(0)
-	RCALL _lcd_gotoxy
-; 0000 0046     lcd_putsf("Humidity: ");
-	__POINTW2FN _0x0,0
 	RCALL SUBOPT_0x2
-; 0000 0047     readData(hum);
-; 0000 0048     lcd_gotoxy(12, 0);
+; 0000 0055     lcd_putsf("Humidity: ");
+	__POINTW2FN _0x0,0
+	RCALL SUBOPT_0x3
+; 0000 0056     readData(hum);
+; 0000 0057     lcd_gotoxy(12, 0);
 	LDI  R30,LOW(12)
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	RCALL _lcd_gotoxy
-; 0000 0049     lcd_putchar(37);
+; 0000 0058     lcd_putchar(37);
 	LDI  R26,LOW(37)
 	RCALL _lcd_putchar
-; 0000 004A }
+; 0000 0059 }
 	RJMP _0x2020001
 ; .FEND
 ;
 ;void displayTemperature(char temp) {
-; 0000 004C void displayTemperature(char temp) {
+; 0000 005B void displayTemperature(char temp) {
 _displayTemperature:
 ; .FSTART _displayTemperature
-; 0000 004D    lcd_gotoxy(0,1);
+; 0000 005C    lcd_gotoxy(0,1);
 	ST   -Y,R26
 ;	temp -> Y+0
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	LDI  R26,LOW(1)
 	RCALL _lcd_gotoxy
-; 0000 004E    lcd_putsf("Temp: ");
+; 0000 005D    lcd_putsf("Temp: ");
 	__POINTW2FN _0x0,11
-	RCALL SUBOPT_0x2
-; 0000 004F    readData(temp);
-; 0000 0050    lcd_gotoxy(8,1);
+	RCALL SUBOPT_0x3
+; 0000 005E    readData(temp);
+; 0000 005F    lcd_gotoxy(8,1);
 	LDI  R30,LOW(8)
 	ST   -Y,R30
 	LDI  R26,LOW(1)
 	RCALL _lcd_gotoxy
-; 0000 0051    lcd_putchar(223);
+; 0000 0060    lcd_putchar(223);
 	LDI  R26,LOW(223)
 	RCALL _lcd_putchar
-; 0000 0052    lcd_putchar(67);
+; 0000 0061    lcd_putchar(67);
 	LDI  R26,LOW(67)
 	RCALL _lcd_putchar
-; 0000 0053 }
+; 0000 0062 }
 	RJMP _0x2020001
 ; .FEND
 ;
+;void displayWarning(char temp) {
+; 0000 0064 void displayWarning(char temp) {
+_displayWarning:
+; .FSTART _displayWarning
+; 0000 0065     if (temp >= 40 ) {
+	ST   -Y,R26
+;	temp -> Y+0
+	LD   R26,Y
+	CPI  R26,LOW(0x28)
+	BRLO _0x54
+; 0000 0066         lcd_clear();
+	RCALL _lcd_clear
+; 0000 0067         lcd_gotoxy(0,0);
+	RCALL SUBOPT_0x2
+; 0000 0068         lcd_puts("temp too high");
+	__POINTW2MN _0x55,0
+	RCALL _lcd_puts
+; 0000 0069     }
+; 0000 006A     if (temp <= 10) {
+_0x54:
+	LD   R26,Y
+	CPI  R26,LOW(0xB)
+	BRSH _0x56
+; 0000 006B        lcd_clear();
+	RCALL _lcd_clear
+; 0000 006C         lcd_gotoxy(0,0);
+	RCALL SUBOPT_0x2
+; 0000 006D         lcd_puts("temp too low");
+	__POINTW2MN _0x55,14
+	RCALL _lcd_puts
+; 0000 006E     }
+; 0000 006F }
+_0x56:
+	RJMP _0x2020001
+; .FEND
+
+	.DSEG
+_0x55:
+	.BYTE 0x1B
+;
 ;void setTempLimit(void){
-; 0000 0055 void setTempLimit(void){
+; 0000 0071 void setTempLimit(void){
+
+	.CSEG
 _setTempLimit:
 ; .FSTART _setTempLimit
-; 0000 0056    if (PINB.2 == 0) {
+; 0000 0072    if (PINB.2 == 0) {
 	SBIC 0x16,2
-	RJMP _0x44
-; 0000 0057      tempLimit++;
+	RJMP _0x57
+; 0000 0073      tempLimit++;
 	INC  R10
-; 0000 0058      while (PINB.2 == 0) {
-_0x45:
+; 0000 0074      while (PINB.2 == 0) {
+_0x58:
 	SBIC 0x16,2
-	RJMP _0x47
-; 0000 0059         display(tempLimit);
-	RCALL SUBOPT_0x3
-; 0000 005A      }
-	RJMP _0x45
-_0x47:
-; 0000 005B    }
-; 0000 005C    if (PINB.3 == 0) {
-_0x44:
+	RJMP _0x5A
+; 0000 0075         display(tempLimit);
+	RCALL SUBOPT_0x4
+; 0000 0076      }
+	RJMP _0x58
+_0x5A:
+; 0000 0077    }
+; 0000 0078    if (PINB.3 == 0) {
+_0x57:
 	SBIC 0x16,3
-	RJMP _0x48
-; 0000 005D     tempLimit--;
+	RJMP _0x5B
+; 0000 0079     tempLimit--;
 	DEC  R10
-; 0000 005E     while(PINB.3 == 0) {
-_0x49:
+; 0000 007A     while(PINB.3 == 0) {
+_0x5C:
 	SBIC 0x16,3
-	RJMP _0x4B
-; 0000 005F        display(tempLimit);
-	RCALL SUBOPT_0x3
-; 0000 0060     }
-	RJMP _0x49
-_0x4B:
-; 0000 0061    }
-; 0000 0062 }
-_0x48:
+	RJMP _0x5E
+; 0000 007B        display(tempLimit);
+	RCALL SUBOPT_0x4
+; 0000 007C     }
+	RJMP _0x5C
+_0x5E:
+; 0000 007D    }
+; 0000 007E }
+_0x5B:
 	RET
 ; .FEND
 ;
 ;void main(void)
-; 0000 0065 {
+; 0000 0081 {
 _main:
 ; .FSTART _main
-; 0000 0066 // Input/Output Ports initialization
-; 0000 0067 // Port A initialization
-; 0000 0068 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-; 0000 0069 DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
+; 0000 0082 // Input/Output Ports initialization
+; 0000 0083 // Port A initialization
+; 0000 0084 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+; 0000 0085 DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
 	LDI  R30,LOW(0)
 	OUT  0x1A,R30
-; 0000 006A // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
-; 0000 006B PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
+; 0000 0086 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+; 0000 0087 PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
 	OUT  0x1B,R30
-; 0000 006C 
-; 0000 006D // Port B initialization
-; 0000 006E // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-; 0000 006F DDRB=(0<<DDB7) | (0<<DDB6) | (0<<DDB5) | (1<<DDB4) | (0<<DDB3) | (0<<DDB2) | (1<<DDB1) | (1<<DDB0);
-	LDI  R30,LOW(19)
+; 0000 0088 
+; 0000 0089 // Port B initialization
+; 0000 008A // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+; 0000 008B DDRB=(1<<DDB7) | (1<<DDB6) | (1<<DDB5) | (1<<DDB4) | (0<<DDB3) | (0<<DDB2) | (1<<DDB1) | (1<<DDB0);
+	LDI  R30,LOW(243)
 	OUT  0x17,R30
-; 0000 0070 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
-; 0000 0071 PORTB=(0<<PORTB7) | (0<<PORTB6) | (0<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
-	LDI  R30,LOW(31)
+; 0000 008C // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+; 0000 008D PORTB=(0<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
+	LDI  R30,LOW(127)
 	OUT  0x18,R30
-; 0000 0072 
-; 0000 0073 // Port C initialization
-; 0000 0074 // Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out
-; 0000 0075 DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (1<<DDC3) | (1<<DDC2) | (1<<DDC1) | (1<<DDC0);
+; 0000 008E 
+; 0000 008F // Port C initialization
+; 0000 0090 // Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out
+; 0000 0091 DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (1<<DDC3) | (1<<DDC2) | (1<<DDC1) | (1<<DDC0);
 	LDI  R30,LOW(255)
 	OUT  0x14,R30
-; 0000 0076 // State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0
-; 0000 0077 PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
+; 0000 0092 // State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0
+; 0000 0093 PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
 	LDI  R30,LOW(3)
 	OUT  0x15,R30
-; 0000 0078 
-; 0000 0079 // Port D initialization
-; 0000 007A // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
-; 0000 007B DDRD=(1<<DDD7) | (1<<DDD6) | (1<<DDD5) | (1<<DDD4) | (1<<DDD3) | (1<<DDD2) | (1<<DDD1) | (1<<DDD0);
+; 0000 0094 
+; 0000 0095 // Port D initialization
+; 0000 0096 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+; 0000 0097 DDRD=(1<<DDD7) | (1<<DDD6) | (1<<DDD5) | (1<<DDD4) | (1<<DDD3) | (1<<DDD2) | (1<<DDD1) | (1<<DDD0);
 	LDI  R30,LOW(255)
 	OUT  0x11,R30
-; 0000 007C // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
-; 0000 007D PORTD=(1<<PORTD7) | (1<<PORTD6) | (1<<PORTD5) | (1<<PORTD4) | (1<<PORTD3) | (1<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
+; 0000 0098 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+; 0000 0099 PORTD=(1<<PORTD7) | (1<<PORTD6) | (1<<PORTD5) | (1<<PORTD4) | (1<<PORTD3) | (1<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
 	OUT  0x12,R30
-; 0000 007E 
-; 0000 007F // Timer/Counter 0 initialization
-; 0000 0080 TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+; 0000 009A 
+; 0000 009B // Timer/Counter 0 initialization
+; 0000 009C TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
 	LDI  R30,LOW(0)
 	OUT  0x33,R30
-; 0000 0081 TCNT0=0x00;
+; 0000 009D TCNT0=0x00;
 	OUT  0x32,R30
-; 0000 0082 OCR0=0x00;
+; 0000 009E OCR0=0x00;
 	OUT  0x3C,R30
-; 0000 0083 
-; 0000 0084 // Timer/Counter 1 initialization
-; 0000 0085 TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
+; 0000 009F 
+; 0000 00A0 // Timer/Counter 1 initialization
+; 0000 00A1 TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
 	OUT  0x2F,R30
-; 0000 0086 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
+; 0000 00A2 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
 	OUT  0x2E,R30
-; 0000 0087 TCNT1H=0x00;
+; 0000 00A3 TCNT1H=0x00;
 	OUT  0x2D,R30
-; 0000 0088 TCNT1L=0x00;
+; 0000 00A4 TCNT1L=0x00;
 	OUT  0x2C,R30
-; 0000 0089 ICR1H=0x00;
+; 0000 00A5 ICR1H=0x00;
 	OUT  0x27,R30
-; 0000 008A ICR1L=0x00;
+; 0000 00A6 ICR1L=0x00;
 	OUT  0x26,R30
-; 0000 008B OCR1AH=0x00;
+; 0000 00A7 OCR1AH=0x00;
 	OUT  0x2B,R30
-; 0000 008C OCR1AL=0x00;
+; 0000 00A8 OCR1AL=0x00;
 	OUT  0x2A,R30
-; 0000 008D OCR1BH=0x00;
+; 0000 00A9 OCR1BH=0x00;
 	OUT  0x29,R30
-; 0000 008E OCR1BL=0x00;
+; 0000 00AA OCR1BL=0x00;
 	OUT  0x28,R30
-; 0000 008F 
-; 0000 0090 // Timer/Counter 2 initialization
-; 0000 0091 ASSR=0<<AS2;
+; 0000 00AB 
+; 0000 00AC // Timer/Counter 2 initialization
+; 0000 00AD ASSR=0<<AS2;
 	OUT  0x22,R30
-; 0000 0092 TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+; 0000 00AE TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
 	OUT  0x25,R30
-; 0000 0093 TCNT2=0x00;
+; 0000 00AF TCNT2=0x00;
 	OUT  0x24,R30
-; 0000 0094 OCR2=0x00;
+; 0000 00B0 OCR2=0x00;
 	OUT  0x23,R30
-; 0000 0095 
-; 0000 0096 // Timer(s)/Counter(s) Interrupt(s) initialization
-; 0000 0097 TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
+; 0000 00B1 
+; 0000 00B2 // Timer(s)/Counter(s) Interrupt(s) initialization
+; 0000 00B3 TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (0<<TOIE0);
 	OUT  0x39,R30
-; 0000 0098 
-; 0000 0099 // External Interrupt(s) initialization
-; 0000 009A MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
+; 0000 00B4 
+; 0000 00B5 // External Interrupt(s) initialization
+; 0000 00B6 MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
 	OUT  0x35,R30
-; 0000 009B MCUCSR=(0<<ISC2);
+; 0000 00B7 MCUCSR=(0<<ISC2);
 	OUT  0x34,R30
-; 0000 009C 
-; 0000 009D UCSRB=(1<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
+; 0000 00B8 
+; 0000 00B9 UCSRB=(1<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
 	LDI  R30,LOW(128)
 	OUT  0xA,R30
-; 0000 009E 
-; 0000 009F ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
+; 0000 00BA 
+; 0000 00BB ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
 	OUT  0x8,R30
-; 0000 00A0 
-; 0000 00A1 ADCSRA=(1<<ADEN) | (1<<ADSC) | (1<<ADATE) | (0<<ADIF) | (1<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+; 0000 00BC 
+; 0000 00BD ADCSRA=(1<<ADEN) | (1<<ADSC) | (1<<ADATE) | (0<<ADIF) | (1<<ADIE) | (0<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 	LDI  R30,LOW(235)
 	OUT  0x6,R30
-; 0000 00A2 SFIOR=(0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
+; 0000 00BE SFIOR=(0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
 	LDI  R30,LOW(0)
 	OUT  0x30,R30
-; 0000 00A3 
-; 0000 00A4 SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
+; 0000 00BF 
+; 0000 00C0 SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
 	OUT  0xD,R30
-; 0000 00A5 
-; 0000 00A6 TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
+; 0000 00C1 
+; 0000 00C2 TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 	OUT  0x36,R30
-; 0000 00A7 
-; 0000 00A8 lcd_init(16);
+; 0000 00C3 
+; 0000 00C4 lcd_init(16);
 	LDI  R26,LOW(16)
 	RCALL _lcd_init
-; 0000 00A9 #asm("sei")
+; 0000 00C5 #asm("sei")
 	sei
-; 0000 00AA 
-; 0000 00AB while (1)
-_0x4C:
-; 0000 00AC       {
-; 0000 00AD         display(tempLimit);
-	RCALL SUBOPT_0x3
-; 0000 00AE         setTempLimit();
+; 0000 00C6 
+; 0000 00C7 while (1) {
+_0x5F:
+; 0000 00C8         display(tempLimit);
+	RCALL SUBOPT_0x4
+; 0000 00C9         setTempLimit();
 	RCALL _setTempLimit
-; 0000 00AF 
-; 0000 00B0         readDHT11(&temp,&hum);
+; 0000 00CA 
+; 0000 00CB         readDHT11(&temp,&hum);
 	LDI  R30,LOW(11)
 	LDI  R31,HIGH(11)
 	ST   -Y,R31
@@ -1909,25 +1995,30 @@ _0x4C:
 	LDI  R26,LOW(6)
 	LDI  R27,HIGH(6)
 	RCALL _readDHT11
-; 0000 00B1         displayHumidity(hum);
+; 0000 00CC         displayHumidity(hum);
 	MOV  R26,R6
 	RCALL _displayHumidity
-; 0000 00B2         handleHum(hum);
+; 0000 00CD         handleHum(hum);
 	MOV  R26,R6
 	RCALL _handleHum
-; 0000 00B3 
-; 0000 00B4         displayTemperature(temp);
+; 0000 00CE 
+; 0000 00CF         displayTemperature(temp);
 	MOV  R26,R11
 	RCALL _displayTemperature
-; 0000 00B5         handleTemp(temp, tempLimit);
+; 0000 00D0         handleTemp(temp, tempLimit);
 	ST   -Y,R11
 	MOV  R26,R10
 	RCALL _handleTemp
-; 0000 00B6       }
-	RJMP _0x4C
-; 0000 00B7 }
-_0x4F:
-	RJMP _0x4F
+; 0000 00D1         warningTemp();
+	RCALL _warningTemp
+; 0000 00D2         displayWarning(temp);
+	MOV  R26,R11
+	RCALL _displayWarning
+; 0000 00D3       }
+	RJMP _0x5F
+; 0000 00D4 }
+_0x62:
+	RJMP _0x62
 ; .FEND
 ;
 	#ifndef __SLEEP_DEFINED__
@@ -1988,18 +2079,18 @@ _lcd_gotoxy:
 	RCALL __lcd_write_data
 	LDD  R13,Y+1
 	LDD  R12,Y+0
-_0x2020002:
+_0x2020003:
 	ADIW R28,2
 	RET
 ; .FEND
 _lcd_clear:
 ; .FSTART _lcd_clear
 	LDI  R26,LOW(2)
-	RCALL SUBOPT_0x4
+	RCALL SUBOPT_0x5
 	LDI  R26,LOW(12)
 	RCALL __lcd_write_data
 	LDI  R26,LOW(1)
-	RCALL SUBOPT_0x4
+	RCALL SUBOPT_0x5
 	LDI  R30,LOW(0)
 	MOV  R12,R30
 	MOV  R13,R30
@@ -2033,6 +2124,26 @@ _0x2000004:
 	CBI  0x15,2
 	RJMP _0x2020001
 ; .FEND
+_lcd_puts:
+; .FSTART _lcd_puts
+	ST   -Y,R27
+	ST   -Y,R26
+	ST   -Y,R17
+_0x2000008:
+	LDD  R26,Y+1
+	LDD  R27,Y+1+1
+	LD   R30,X+
+	STD  Y+1,R26
+	STD  Y+1+1,R27
+	MOV  R17,R30
+	CPI  R30,0
+	BREQ _0x200000A
+	MOV  R26,R17
+	RCALL _lcd_putchar
+	RJMP _0x2000008
+_0x200000A:
+	RJMP _0x2020002
+; .FEND
 _lcd_putsf:
 ; .FSTART _lcd_putsf
 	ST   -Y,R27
@@ -2053,6 +2164,7 @@ _0x200000B:
 	RCALL _lcd_putchar
 	RJMP _0x200000B
 _0x200000D:
+_0x2020002:
 	LDD  R17,Y+0
 	ADIW R28,3
 	RET
@@ -2079,9 +2191,9 @@ _lcd_init:
 	LDI  R26,LOW(20)
 	LDI  R27,0
 	CALL _delay_ms
-	RCALL SUBOPT_0x5
-	RCALL SUBOPT_0x5
-	RCALL SUBOPT_0x5
+	RCALL SUBOPT_0x6
+	RCALL SUBOPT_0x6
+	RCALL SUBOPT_0x6
 	LDI  R26,LOW(32)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 200
@@ -2124,28 +2236,35 @@ SUBOPT_0x1:
 	LDI  R27,0
 	JMP  _delay_ms
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:3 WORDS
 SUBOPT_0x2:
+	LDI  R30,LOW(0)
+	ST   -Y,R30
+	LDI  R26,LOW(0)
+	RJMP _lcd_gotoxy
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0x3:
 	RCALL _lcd_putsf
 	LD   R26,Y
 	CLR  R27
 	JMP  _readData
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x3:
+SUBOPT_0x4:
 	MOV  R26,R10
 	CLR  R27
 	JMP  _display
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x4:
+SUBOPT_0x5:
 	RCALL __lcd_write_data
 	LDI  R26,LOW(3)
 	LDI  R27,0
 	JMP  _delay_ms
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:7 WORDS
-SUBOPT_0x5:
+SUBOPT_0x6:
 	LDI  R26,LOW(48)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 200

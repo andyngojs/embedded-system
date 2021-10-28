@@ -27,7 +27,7 @@ Active0=0
 EditorPanel0=0
 PageIndex0=0
 EditorPanel1=0
-TimeStamp1=1398538324
+TimeStamp1=1398572019
 PageIndex1=1
 OF2=C:\cvavr\inc\alcd.h
 Active2=0
@@ -132,8 +132,8 @@ WatchAVR8LAutoVariables=0
 UseEEPROMLocation0=1
 RebuildAll=0
 LinkageInformationPresent=1
-COFFileTimeStamp=1398565825
-Build=73
+COFFileTimeStamp=1398572020
+Build=95
 [DefinedSymbolsDebug]
 Count=0
 [Compiler]
@@ -235,7 +235,7 @@ UseEEPROMLocation0=1
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=73
+Build=95
 [DefinedSymbols]
 Count=0
 [StartUp]
@@ -348,8 +348,8 @@ L13=Enhanced function parameters passing: Yes
 L14=Automatic register allocation: Yes
 L15=Smart register allocation: Yes
 L16=
-L17=Build: 73
-L18=2770 line(s) compiled
+L17=Build: 94
+L18=2799 line(s) compiled
 L19=No errors
 L20=No warnings
 L21=
@@ -359,30 +359,30 @@ L24=Data Stack area: 0x60 to 0x15F
 L25=Data Stack size: 256 byte(s)
 L26=Estimated Data Stack usage: 10 byte(s)
 L27=
-L28=RAM Global variables area: 0x160 to 0x16E
-L29=RAM Global variables size: 15 byte(s)
+L28=RAM Global variables area: 0x160 to 0x189
+L29=RAM Global variables size: 42 byte(s)
 L30=
-L31=Hardware Stack area: 0x16F to 0x45F
-L32=Hardware Stack size: 753 byte(s)
+L31=Hardware Stack area: 0x18A to 0x45F
+L32=Hardware Stack size: 726 byte(s)
 L33=
 L34=Heap size: 0 byte(s)
 L35=
 Lines=38
 L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
-L37=Program size: 663 words (1326 bytes), 8.1% of FLASH
-L38=12 words (24 bytes), 1.8% reduced by Code Compression
+L37=Program size: 734 words (1468 bytes), 9.0% of FLASH
+L38=15 words (30 bytes), 2.0% reduced by Code Compression
 [BuildInfoAssembler]
 Lines=12
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=F:\Electronics\AVR\DHT11_Demo\Debug\List\dht11-demo.asm(2225): No EEPROM data, deleting F:\Electronics\AVR\DHT11_Demo\Debug\Exe\dht11-demo.eep
+L4=F:\Electronics\AVR\DHT11_Demo\Debug\List\dht11-demo.asm(2344): No EEPROM data, deleting F:\Electronics\AVR\DHT11_Demo\Debug\Exe\dht11-demo.eep
 L5=
 L6=ATmega16 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
-L9=[.cseg] 0x000000 0x00052e   1268     58   1326   16384   8.1%
-L10=[.dseg] 0x000060 0x00016f      0     15     15    1024   1.5%
+L9=[.cseg] 0x000000 0x0005bc   1370     98   1468   16384   9.0%
+L10=[.dseg] 0x000060 0x00018a      0     42     42    1024   4.1%
 L11=[.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 L12=
 [BookmarksFoldedCode]
@@ -448,13 +448,13 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
-TimeStamp=1398539588
+TimeStamp=1398573588
 [Bookmarks4]
-TimeStamp=1398538324
-Row=163
-Column=25
+TimeStamp=1398572019
+Row=109
+Column=5
 ScrollPosX=0
-ScrollPosY=151
+ScrollPosY=189
 BK0=-1
 BK1=-1
 BK2=-1
@@ -465,10 +465,6 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
-[FoldedCode4]
-Blocks=0
-[FoldedCode3]
-Blocks=0
 [HeadersList]
 Files=1
 F1=F:\Electronics\AVR\DHT11_Demo\index.c
@@ -481,3 +477,7 @@ F4=C:\cvavr\inc\alcd.h
 F5=DHT11\DHT11.h
 F6=DHT11\IO_MACROS.h
 F7=DHT11\dht11.c
+[FoldedCode4]
+Blocks=0
+[FoldedCode3]
+Blocks=0
